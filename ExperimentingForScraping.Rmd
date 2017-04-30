@@ -14,21 +14,84 @@ remDr <- rD[["client"]]
 library(tidyverse)
 library(rvest)
 library(XML)
-remDr$navigate("http://play.usaultimate.org/teams/events/team_rankings/?RankSet=College-Men")
-elem <- remDr$findElement(using="id", value="CT_Main_0_lnkViewAll")
+remDr$navigate("http://play.usaultimate.org/teams/events/rankings/")
+elem <- remDr$findElement(using = 'xpath', "//*/option[@value = 'College']")
+elem$clickElement()
+
+elem <- remDr$findElement(using = 'xpath', "//*/option[@value = '2']")
+elem$clickElement()
+
+elem <- remDr$findElement(using = 'id', "CT_Main_0_btnSubmit")
+elem$clickElement()
+```
+
+```{r}
+
+
+elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+  html_table(fill=TRUE)
+
+
+teams <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+
+teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teams)]
+```
+
+```{r}
+library(stringr)
+num_pages <- data[[2]][2] %>% str_split(.," of ") %>% .[[1]] %>% .[2] %>% as.numeric()
+for( n in 2:num_pages){
+  
+  
+  if(n<10){
+    link <- paste0("CT_Main_0$gvList$ctl23$ctl00$ctl0",n)
+  } else{
+    link <- paste0("CT_Main_0$gvList$ctl23$ctl00$ctl",n)
+  }
+  elem <- remDr$findElement(using="partial link text", value="Next ")
+  elem$clickElement()
+
+  elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+  data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+    html_table(fill=TRUE)
+
+  new_teams <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+
+  new_teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>%
+    htmlTreeParse(useInternalNodes=TRUE) %>% 
+    xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(new_teams)]
+
+  teams <- bind_rows(teams, new_teams)
+  
+}
+
+rm(data)
+rm(elem)
+teams <- teams %>% arrange(Team) 
+
+```
+```{r pullConf}
+
+remDr$navigate("http://play.usaultimate.org/teams/events/team_rankings/?RankSet=College-Women")
+
+elem <- remDr$findElement(using="link text", value="View All")
 elem$clickElement()
 
 elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
-data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>% html_table(fill=TRUE)
-teams <- data[[1]][,-11:-14] %>% filter(!is.na(Losses) & Rank != Team )
+data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+  html_table(fill=TRUE)
 
-teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist 
-rm(data)
-rm(elem)
-teams <- teams %>% arrange(Team) %>% select(-Rank, -`Power Rating`)
+#Need to fix
+#teamsInfo <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+
+teamsInfo$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teams)]
+
+#strip extraneous
+
+#join
 
 ```
-
 
 ```{r pullScores}
 scores <-data.frame(Team1=character(), Score1=numeric(), 
@@ -177,4 +240,3 @@ rankedteams <-arrange(rankedteams, desc(Rating))
 write.csv(rankedteams, paste("USAU College Men RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
 
 ```
-

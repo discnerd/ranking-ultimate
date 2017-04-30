@@ -20,11 +20,14 @@ remDr$navigate("http://play.usaultimate.org/teams/events/rankings/")
 elem <- remDr$findElement(using = 'xpath', "//*/option[@value = 'College']")
 elem$clickElement()
 
-elem <- remDr$findElement(using = 'xpath', "//*/option[@value = '17']")
+elem <- remDr$findElement(using = 'xpath', "//*/option[@value = '2']")
 elem$clickElement()
 
 elem <- remDr$findElement(using = 'id', "CT_Main_0_btnSubmit")
 elem$clickElement()
+```
+
+```{r}
 
 
 elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
@@ -35,6 +38,9 @@ data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
 teams <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
 
 teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teams)]
+```
+
+```{r}
 library(stringr)
 num_pages <- data[[2]][2] %>% str_split(.," of ") %>% .[[1]] %>% .[2] %>% as.numeric()
 for( n in 2:num_pages){
@@ -64,7 +70,8 @@ for( n in 2:num_pages){
 
 rm(data)
 rm(elem)
-teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% arrange(Team)  
+teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% arrange(Team) 
+
 teams <- teams %>% mutate(Wins = 0, Losses = 0)
 
 ```
@@ -75,7 +82,6 @@ scores <-data.frame(Team1=character(), Score1=numeric(),
                     Team2=character(), Score2=numeric(), Date=character())
 
 for( i in 1:length(teams$Team)){
-  #for( i in 59:length(teams$Team)){
   Sys.sleep(runif(1))
   url <- paste0("http://play.usaultimate.org", teams$Links[i])
   remDr$navigate(url)
@@ -142,8 +148,7 @@ rD[["server"]]$stop()
 gc(rD)
 ```
 ```{r}
-save(scores, teams, file=paste0("MensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
-
+save(scores, teams, file=paste0("WomensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
 ```
 
 ```{r}
@@ -165,7 +170,7 @@ v=c(0,0,0,0,0,0,0,0,0,0,1/2)
 shares<-solve(P,v)
 ```
 ```{r}
-library(Matrix)
+
 A=sparseMatrix(seq(1,length(teams$Team)),seq(1,length(teams$Team)),x=0)
 b=rep(1,length(teams$Team))
 
@@ -196,30 +201,37 @@ for(i in 1:length(scores$Team1)){
 }
 image(A)
 
+```
+```{r}
+which(rowSums(A)==0)
+```
 
+
+```{r}
 A_unnormed <- A
 for(i in 1:length(teams$Team)){
   if(sum(A[i,])!=0){ 
     A[i,]=A[i,]/sum(A[i,])
   }
 }
+```
+```{r}
 
-library(expm)
 b=t(rep(1,length(teams$Team)))
 for( i in 1:1000){
   b<-b%*%A
 }
+```
 
+```{r}
 library(tidyverse)
 teams$Index = 1:length(teams$Team)
 rankedteams<-bind_cols(teams, tibble(Rating=as.numeric(b)))
 rankedteams <-arrange(rankedteams, desc(Rating))
-
-write.csv(rankedteams, paste("USAU College Men RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
-
 ```
 
+```{r}
+write.csv(rankedteams, paste("USAU College Women RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
 
-
-
+```
 
