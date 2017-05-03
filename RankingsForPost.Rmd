@@ -14,14 +14,16 @@ oldmensRanking <- read_csv("USAU College Men RW2017 04 26.csv")
 mensRanking <- read_csv("USAU College Men RW2017 05 01.csv")
 mensRanking <- mensRanking %>% rename(Ranking = X1)
 oldmensRanking <- oldmensRanking %>% rename(Ranking = X1)
-womensRanking <- read_csv("USAU College Women RW2017 04 26.csv")
-oldwomensRanking <- read_csv("USAU College Women RW2017 04 17.csv")
+oldwomensRanking <- read_csv("USAU College Women RW2017 04 26.csv")
+womensRanking <- read_csv("USAU College Women RW2017 05 03.csv")
 womensRanking <- womensRanking %>% rename(Ranking = X1)
 oldwomensRanking <- oldwomensRanking %>% rename(Ranking = X1)
 
-mensRanking <- left_join(mensRanking,oldmensRanking,by=c("Links")) %>% mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x)
+mensRanking <- left_join(mensRanking,oldmensRanking,by=c("Links")) %>% 
+  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x)
 
-womensRanking <- left_join(womensRanking,oldwomensRanking,by=c( "Links")) %>% mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x) 
+womensRanking <- left_join(womensRanking,oldwomensRanking,by=c( "Links")) %>% 
+  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x) 
 ```
 
 #Men
