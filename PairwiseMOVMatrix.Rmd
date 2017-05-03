@@ -9,8 +9,8 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("MensScores2017 04 26.Rdata")
-source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPrediction.R')
+load("WomensScores2017 04 30.Rdata")
+source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
 P=matrix(c(1   ,-1/2,0   ,0,0,0,0,0,0,0,0,
@@ -82,35 +82,62 @@ rankedteams <-arrange(rankedteams, desc(Rating))
 ```
 
 ```{r}
-region = "New England"
-division = "Division III"
-bids <- 3
-rankedteams %>% filter(`College Region` == region & `Competition Division` == division) %>% select(-`Competition Level`,-`Gender Division`,-Links) %>% View
-indices <- rankedteams %>% filter(`College Region` == region & `Competition Division` == division) %>% select(-`Competition Level`,-`Gender Division`,-Links) %>% .$Index
+rankedteams %>% filter(State %in% c("AR", "CO", "KS", "MO", "OK", "TX", "WY")) %>% select(Team, Index, Rating, Wins, Losses)
 
-possibleTeams <-indices[1:bids]
-cat(possibleTeams, " ")
-team <-bids+1
-possible =TRUE
-while(possible){
-  if(Predict_Margin(A_unnormed, shares, indices[team],possibleTeams[bids])>-3 ){
-    possibleTeams <- indices[1:team]
-    cat(possibleTeams[team], " ")
-    team=team+1
-    if(team > length(indices)){
-      possible = FALSE
-    }
-  } else{
-    possible = FALSE
+
+```
+
+```{r}
+bids <- 3
+#Great Lakes
+#indices <- c(256, 310, 346, 308, 193, 195, 91, 176, 217, 197, 258, 489 )
+#New England
+#indices <- c(249, 182, 453, 50, 302, 467, 37, 275, 39, 285, 353, 248, 451, 466, 48, 458)
+#South Central
+#indices <- c(112, 108, 436, 439, 443, 20, 322, 481, 437, 442, 366, 212, 300, 29, 213, 271)
+#South East
+indices <- c(165, 87, 24, 147, 151, 233, 144, 171, 168, 428, 427, 385, 215, 269, 7,5  )
+e<-Re(eigen(t(A))$vectors[,1])
+e<-e/sum(e)*length(e)
+# possibleTeams <-indices[1:bids]
+# cat(possibleTeams, " ")
+# team <-bids+1
+# possible =TRUE
+# while(possible){
+#   if(Predict_Margin(A_unnormed, c(0,shares,1),
+#                     indices[team],possibleTeams[bids], e)>-4 ){
+#     possibleTeams <- indices[1:team]
+#     cat(possibleTeams[team], " ")
+#     team=team+1
+#     if(team > length(indices)){
+#       possible = FALSE
+#     }
+#   } else{
+#     possible = FALSE
+#   }
+# }
+teams$School[indices]
+```
+```{r}
+
+MOV=diag(rep(0,length(indices)))
+for( i in 1:(length(indices)-1)){
+  for(j in (i+1):length(indices)){
+    MOV[i,j]= Predict_Margin(A_unnormed , c(0,shares,1), indices[j], indices[i], e)
+    cat(teams$Team[indices[i]]," ", teams$Team[indices[j]], ":", MOV[i,j], "\n")
+    MOV[j,i]=-MOV[i,j]
   }
 }
+
+
 ```
+
 
 ```{r}
 MOV=diag(rep(0,length(possibleTeams)))
 for( i in 1:(length(possibleTeams)-1)){
   for(j in (i+1):length(possibleTeams)){
-    MOV[i,j]= Predict_Margin(A_unnormed , shares, possibleTeams[j], possibleTeams[i])
+    MOV[i,j]= Predict_Margin(A_unnormed , c(0,shares,1), possibleTeams[j], possibleTeams[i])
     cat(teams$Team[possibleTeams[i]]," ", teams$Team[possibleTeams[j]], ":", MOV[i,j], "\n")
     MOV[j,i]=-MOV[i,j]
   }
@@ -120,9 +147,9 @@ for( i in 1:(length(possibleTeams)-1)){
 ```
 
 ```{r }
-rownames(MOV) <-teams$Team[possibleTeams]
-colnames(MOV) <-teams$Team[possibleTeams]
+rownames(MOV) <-teams$Team[indices]
+colnames(MOV) <-teams$Team[indices]
 print(xtable::xtable(MOV), type="html")
-MOV
+#MOV
 
 ```

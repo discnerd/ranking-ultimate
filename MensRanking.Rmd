@@ -64,11 +64,34 @@ for( n in 2:num_pages){
 
 rm(data)
 rm(elem)
-teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% arrange(Team)  
-teams <- teams %>% mutate(Wins = 0, Losses = 0)
+teams <- teams %>% filter( Wins !=0 | Losses !=0)
+
 
 ```
 
+```{r pullConf}
+
+remDr$navigate("http://play.usaultimate.org/teams/events/team_rankings/?RankSet=College-Men")
+
+elem <- remDr$findElement(using="link text", value="View All")
+elem$clickElement()
+
+elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+  html_table(fill=TRUE)
+
+teamsInfo <- data[[1]][-(nrow(data[[1]])-1),-11:-12] %>% filter(!is.na(Losses))
+
+teamsInfo$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teamsInfo)]
+
+teams <- left_join(teams,teamsInfo,by=c("Links", "Competition Level", "Gender Division")) %>% select(-Wins.y, -Losses.y, -Wins.x, -Losses.x) %>% rename(Team=Team.x, School=Team.y) %>% mutate(Rank=as.numeric(Rank), `Power Rating`=as.numeric(`Power Rating`))
+
+teams <- teams %>% arrange(Team) %>% mutate(Wins=0, Losses=0)
+
+rm(teamsInfo)
+
+
+```
 
 ```{r pullScores}
 scores <-data.frame(Team1=character(), Score1=numeric(), 

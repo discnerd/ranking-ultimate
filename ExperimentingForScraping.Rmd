@@ -68,7 +68,6 @@ for( n in 2:num_pages){
 
 rm(data)
 rm(elem)
-teams <- teams %>% arrange(Team) 
 
 ```
 ```{r pullConf}
@@ -82,14 +81,14 @@ elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
 data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
   html_table(fill=TRUE)
 
-#Need to fix
-#teamsInfo <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+teamsInfo <- data[[1]][-(nrow(data[[1]])-1),-11:-12] %>% filter(!is.na(Losses))
 
-teamsInfo$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teams)]
+teamsInfo$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teamsInfo)]
 
-#strip extraneous
+teams <- left_join(teams,teamsInfo,by=c("Links", "Competition Level", "Gender Division")) %>% select(-Wins.y, -Losses.y, -Wins.x, -Losses.x) %>% rename(Team=Team.x, School=Team.y) %>% mutate(Rank=as.numeric(Rank), `Power Rating`=as.numeric(`Power Rating`))
 
-#join
+teams <- teams %>% arrange(Team) 
+
 
 ```
 
