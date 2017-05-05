@@ -9,7 +9,7 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("WomensScores2017 04 30.Rdata")
+load("MensScores2017 05 01.Rdata")
 source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
@@ -48,7 +48,10 @@ for(i in 1:length(scores$Team1)){
   }
   team1=match(scores[i,]$Team1,teams$Team)
   team2=match(scores[i,]$Team2,teams$Team)
-  if( is.na(team1) | is.na(team2)){ next }
+  if( is.na(team1) | is.na(team2) |length(team1)>1 | length(team2)>1){ 
+    cat(scores[i,]$Team1, ":", team1, "\n",
+        scores[i,]$Team2, ":", team2) 
+    next }
   A[team1,team2]=
     A[team1,team2]+Share2
   A[team2,team1]=
@@ -58,7 +61,7 @@ for(i in 1:length(scores$Team1)){
   A[team2,team2]=
     A[team2,team2]+Share2
 }
-image(A)
+#image(A)
 
 
 A_unnormed <- A
@@ -69,10 +72,12 @@ for(i in 1:length(teams$Team)){
 }
 
 library(expm)
-b=t(rep(1,length(teams$Team)))
-for( i in 1:1000){
-  b<-b%*%A
-}
+#b=t(rep(1,length(teams$Team)))
+e<-Re(eigen(t(A))$vectors[,1])
+b<-e/sum(e)*length(e)
+#for( i in 1:1000){
+#  b<-b%*%A
+#}
 
 library(tidyverse)
 teams$Index = 1:length(teams$Team)
@@ -82,21 +87,42 @@ rankedteams <-arrange(rankedteams, desc(Rating))
 ```
 
 ```{r}
-rankedteams %>% filter(State %in% c("AR", "CO", "KS", "MO", "OK", "TX", "WY")) %>% select(Team, Index, Rating, Wins, Losses)
+#Atlantic Coast
+rankedteams %>% filter(State %in% c("MD", "DE", "DC", "NC", "SC", "VA")) %>% select(Team, Index, Rating, Wins, Losses)
+#Great Lakes
+#rankedteams %>% filter(State %in% c("IL", "IN", "KY", "MI")) %>% select(Team, Index, Rating, Wins, Losses)
+#New England
+#rankedteams %>% filter(State %in% c("ME", "MA", "NH", "RI", "VT")) %>% select(Team, Index, Rating, Wins, Losses)
+#South Central
+#rankedteams %>% filter(State %in% c("AR", "CO", "KS", "MO", "OK", "TX", "WY")) %>% select(Team, Index, Rating, Wins, Losses)
+#Southeast
+# %>% filter(State %in% c("AL", "FL", "GA", "LA", "MS", "TN")) %>% select(Team, Index, Rating, Wins, Losses)
 
 
 ```
 
 ```{r}
 bids <- 3
-#Great Lakes
-#indices <- c(256, 310, 346, 308, 193, 195, 91, 176, 217, 197, 258, 489 )
-#New England
+#Atlantic Coast Women
+#indices <- c(284, 177, 77, 100, 176, 140, 178, 56, 83, 235, 96, 127, 150, 6, 267, 303)
+#GReat Lakes women
+#indices <- c(156, 188, 186, 121, 123, 50, 157, 215)
+#New England Women
+#indices<-c(73, 271, 281, 182, 22, 115, 166, 23, 158, 151)
+#Southeast Women
+#indices <- c(91, 101, 106, 134, 93, 14, 47, 89, 256, 278, 142, 2)
+#South Central Women
+#indices <- c(260, 62, 132, 63, 165, 291, 78, 64, 13, 262)
+#Atlantic Coast Men
+#indices <- c(293, 292, 294, 498, 474, 471, 206, 161, 245, 100, 159, 472, 383, 128, 136, 290)
+#Great Lakes Men
+indices <- c(256, 310, 346, 308, 193, 195, 91, 176, 217, 197, 258, 489 )
+#New England Men
 #indices <- c(249, 182, 453, 50, 302, 467, 37, 275, 39, 285, 353, 248, 451, 466, 48, 458)
-#South Central
+#South Central Men
 #indices <- c(112, 108, 436, 439, 443, 20, 322, 481, 437, 442, 366, 212, 300, 29, 213, 271)
-#South East
-indices <- c(165, 87, 24, 147, 151, 233, 144, 171, 168, 428, 427, 385, 215, 269, 7,5  )
+#South East Men
+#indices <- c(165, 87, 24, 147, 151, 233, 144, 171, 168, 428, 427, 385, 215, 269, 7,5  )
 e<-Re(eigen(t(A))$vectors[,1])
 e<-e/sum(e)*length(e)
 # possibleTeams <-indices[1:bids]
@@ -116,7 +142,7 @@ e<-e/sum(e)*length(e)
 #     possible = FALSE
 #   }
 # }
-teams$School[indices]
+teams$Team[indices]
 ```
 ```{r}
 
