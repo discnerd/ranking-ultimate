@@ -17,13 +17,13 @@ library(stringr)
 ##Club
 
 ```{r MenClub, echo=FALSE, results="asis"}
-Ranking <- read_csv("USAU Club Men RW2017 08 04.csv")
-#oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
+Ranking <- read_csv("USAU Club Men RW2017 08 07.csv")
+oldRanking <- read_csv("USAU Club Men RW2017 08 04.csv")
 
-#Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-#  mutate(Rank.diff = Rank.y-Rank.x, Rating.diff=Rating.y-Rating.x) %>%
-#  select(Ranking.x, Ranking.diff, Rating.diff, Team, contains(".x"), City, State) %>%
-#  rename( Ranking=Ranking.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+  mutate(Rank.diff = Rank.y-Rank.x) %>%
+  select(Rank.x, Rank.diff,  Team, contains(".x"), City, State) %>%
+  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
 Ranking %>% head(25) %>% knitr::kable()
 
@@ -66,13 +66,13 @@ Ranking %>% head(25) %>% knitr::kable()
 
 
 ```{r WomenClub, echo=FALSE, results="asis"}
-Ranking <- read_csv("USAU Club Women RW2017 08 04.csv")
-#oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
+Ranking <- read_csv("USAU Club Women RW2017 08 07.csv")
+oldRanking <- read_csv("USAU Club Women RW2017 08 04.csv")
 
-#Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-#  mutate(Rank.diff = Rank.y-Rank.x, Rating.diff=Rating.y-Rating.x) %>%
-#  select(Ranking.x, Ranking.diff, Rating.diff, Team, contains(".x"), City, State) %>%
-#  rename( Ranking=Ranking.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+  mutate(Rank.diff = Rank.y-Rank.x) %>%
+ select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
+  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
 Ranking %>% head(25) %>% knitr::kable()
 ```
@@ -109,13 +109,13 @@ Ranking %>% head(25) %>% knitr::kable()
 ##Club
 
 ```{r MixedClub, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Club Mixed RW2017 08 04.csv")
-#oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
+Ranking <- read_csv("USAU Club Mixed RW2017 08 07.csv")
+oldRanking <- read_csv("USAU Club Mixed RW2017 08 04.csv")
 
-#Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-#  mutate(Rank.diff = Rank.y-Rank.x, Rating.diff=Rating.y-Rating.x) %>%
-#  select(Ranking.x, Ranking.diff, Rating.diff, Team, contains(".x"), City, State) %>%
-#  rename( Ranking=Ranking.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+  mutate(Rank.diff = Rank.y-Rank.x) %>%
+  select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
+  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
 Ranking %>% head(25) %>% knitr::kable()
 
