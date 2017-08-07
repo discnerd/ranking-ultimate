@@ -10,20 +10,26 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readr)
 library(stringr)
-oldmensRanking <- read_csv("USAU College Men RW2017 04 26.csv")
-mensRanking <- read_csv("USAU College Men RW2017 05 01.csv")
+mensRanking <- read_csv("USAU College Men RW2017 05 30.csv")
+oldmensRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 mensRanking <- mensRanking %>% rename(Ranking = X1)
 oldmensRanking <- oldmensRanking %>% rename(Ranking = X1)
-oldwomensRanking <- read_csv("USAU College Women RW2017 04 26.csv")
-womensRanking <- read_csv("USAU College Women RW2017 05 03.csv")
+womensRanking <- read_csv("USAU College Women RW2017 05 30.csv")
+oldwomensRanking <- read_csv("USAU College Women RW2017 05 22.csv")
 womensRanking <- womensRanking %>% rename(Ranking = X1)
 oldwomensRanking <- oldwomensRanking %>% rename(Ranking = X1)
 
 mensRanking <- left_join(mensRanking,oldmensRanking,by=c("Links")) %>% 
-  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x)
+  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>%
+  select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>%
+  select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x, School.x) %>% 
+  rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x, School=School.x)
 
 womensRanking <- left_join(womensRanking,oldwomensRanking,by=c( "Links")) %>% 
-  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>% select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>% select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x) %>% rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x) 
+  mutate(Ranking.diff = Ranking.y-Ranking.x, Rating.diff=Rating.y-Rating.x) %>%
+  select(Ranking.x, Ranking.diff, Rating.diff, Team.x, contains(".x")) %>%
+  select(Ranking.x, Team.x, Ranking.diff, Rating.x, Rating.diff, `Competition Division.x`:Losses.x, School.x) %>% 
+  rename(Team=Team.x, Ranking=Ranking.x, Rating=Rating.x, `Competition Division`=`Competition Division.x`, `College Region`=`College Region.x`, `College Conference`=`College Conference.x`, Wins=Wins.x, Losses=Losses.x, School=School.x) 
 ```
 
 #Men
@@ -31,20 +37,20 @@ womensRanking <- left_join(womensRanking,oldwomensRanking,by=c( "Links")) %>%
 ##Overall
 
 ```{r MenOverall, echo=FALSE, results="asis"}
-mensRanking %>% head(25) %>% knitr::kable()
+mensRanking %>% select(-School) %>% head(25) %>% knitr::kable()
 
 ```
 
-##D3
+##Not D1
 ```{r MenD3, results='asis', echo=FALSE}
-mensRanking %>% filter(`Competition Division` == "Division III") %>%  head(25) %>% knitr::kable()
+mensRanking %>% filter(`Competition Division` == "Division III" | is.na(`Competition Division`) ) %>%  select(-School) %>% head(25) %>% knitr::kable()
 ```
 
 
 ##B Teams
 
 ```{r MenB, results='asis', echo=FALSE}
-mensRanking %>% filter(grepl( ".*B$", Team))  %>% head(25) %>% knitr::kable()
+mensRanking %>% filter(grepl( ".*-B ", Team))  %>% select(-School) %>% head(25) %>% knitr::kable()
 ```
 
 #Women
@@ -52,18 +58,18 @@ mensRanking %>% filter(grepl( ".*B$", Team))  %>% head(25) %>% knitr::kable()
 ##Overall
 
 ```{r WomenOverall, echo=FALSE, results="asis"}
-womensRanking %>% head(25) %>% knitr::kable()
+womensRanking %>% head(25) %>% select(-School) %>% knitr::kable()
 
 ```
 
-##D3
+##Not D1
 ```{r WomenD3, results='asis', echo=FALSE}
-womensRanking %>% filter(`Competition Division` == "Division III") %>%  head(25) %>% knitr::kable()
+womensRanking %>% filter(`Competition Division` == "Division III" | is.na(`Competition Division`) ) %>% select(-School) %>%  head(25) %>% knitr::kable()
 ```
 
 
 ##B Teams
 
 ```{r WomenB, results='asis', echo=FALSE}
-womensRanking %>% filter(grepl( ".*B$", Team)) %>%  head(25) %>% knitr::kable()
+womensRanking %>% filter(grepl( ".*-B ", Team)) %>%select(-School) %>%   head(25) %>% knitr::kable()
 ```

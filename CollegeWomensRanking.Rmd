@@ -1,0 +1,262 @@
+---
+title: "R Notebook"
+output:
+html_document: default
+html_notebook: default
+---
+
+
+
+```{r}
+library(RSelenium)
+rD <- rsDriver()
+remDr <- rD[["client"]]
+```
+```{r pullTeams}
+library(tidyverse)
+library(rvest)
+library(XML)
+remDr$navigate("http://play.usaultimate.org/teams/events/rankings/")
+elem <- remDr$findElement(using = 'xpath', "//*/option[@value = 'College']")
+elem$clickElement()
+
+elem <- remDr$findElement(using = 'xpath', "//*/option[@value = '2']")
+elem$clickElement()
+
+elem <- remDr$findElement(using = 'id', "CT_Main_0_btnSubmit")
+elem$clickElement()
+```
+
+```{r}
+
+
+elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+  html_table(fill=TRUE)
+
+
+teams <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+
+teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teams)]
+
+teams <- teams %>% filter( Wins !=0 | Losses !=0 )
+
+```
+
+```{r}
+library(stringr)
+num_pages <- data[[2]][2] %>% str_split(.," of ") %>% .[[1]] %>% .[2] %>% as.numeric()
+for( n in 2:num_pages){
+  
+  
+  if(n<10){
+    link <- paste0("CT_Main_0$gvList$ctl23$ctl00$ctl0",n)
+  } else{
+    link <- paste0("CT_Main_0$gvList$ctl23$ctl00$ctl",n)
+  }
+  elem <- remDr$findElement(using="partial link text", value="Next ")
+  elem$clickElement()
+
+  elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+  data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+    html_table(fill=TRUE)
+
+  new_teams <- data[[1]][-(nrow(data[[1]])-1),-8:-9] %>% filter(!is.na(Losses))
+
+  new_teams$Links <- elem$getElementAttribute("outerHTML")[[1]] %>%
+    htmlTreeParse(useInternalNodes=TRUE) %>% 
+    xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(new_teams)]
+
+  teams <- bind_rows(teams, new_teams)
+  
+}
+
+rm(data)
+rm(elem)
+teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% filter( !grepl("[Tt]esting",Team)) %>% arrange(Team) 
+
+teams <- teams %>% mutate(Wins = 0, Losses = 0)
+
+```
+```{r pullConf}
+
+remDr$navigate("http://play.usaultimate.org/teams/events/team_rankings/?RankSet=College-Women")
+
+elem <- remDr$findElement(using="link text", value="View All")
+elem$clickElement()
+
+elem <- remDr$findElement(using="id", value="CT_Main_0_gvList")
+data<-elem$getElementAttribute("outerHTML")[[1]]  %>% read_html() %>%
+  html_table(fill=TRUE)
+
+teamsInfo <- data[[1]][-(nrow(data[[1]])-1),-11:-12] %>% filter(!is.na(Losses))
+
+teamsInfo$Links <- elem$getElementAttribute("outerHTML")[[1]] %>% htmlTreeParse(useInternalNodes=TRUE) %>% xpathApply("//a", xmlGetAttr, 'href') %>% unlist %>% .[1:nrow(teamsInfo)]
+
+teams <- left_join(teams,teamsInfo,by=c("Links", "Competition Level", "Gender Division")) %>% select(-Wins.y, -Losses.y, -Wins.x, -Losses.x) %>% rename(Team=Team.x, School=Team.y) %>% mutate(Rank=as.numeric(Rank), `Power Rating`=as.numeric(`Power Rating`))
+
+teams <- teams %>% arrange(Team) %>% mutate(Wins=0, Losses=0)
+
+rm(teamsInfo)
+
+
+```
+
+```{r pullScores}
+scores <-data.frame(Team1=character(), Score1=numeric(), 
+                    Team2=character(), Score2=numeric(), Date=character())
+
+for( i in 1:length(teams$Team)){
+  Sys.sleep(runif(1))
+  url <- paste0("http://play.usaultimate.org", teams$Links[i])
+  remDr$navigate(url)
+  #pull table of games
+  elem <- remDr$findElement(using = "id", value="CT_Right_0_gvEventScheduleScores")
+  data <- elem$getElementAttribute("outerHTML")[[1]] %>% 
+    read_html() %>% html_table(fill=TRUE)
+  data <- data[[1]]
+  names(data) <- c("Date", "Scores", "Opponent")
+  data <- filter(data, Date != Scores)
+  data <- data %>% separate(Scores, c("For", "Against"))
+  data <- data %>% filter(!is.na(Against) & !is.na(For)) %>% filter(Opponent != "N/A") %>%
+    mutate(For=ifelse(For=="W", 1, 
+                      ifelse(For=="F", -1, 
+                             ifelse(For=="L",0,
+                                    as.numeric(For)))),
+           Against=ifelse(Against=="W", 1, 
+                          ifelse(Against=="F", -1, 
+                                 ifelse(Against=="L",0,
+                                        as.numeric(Against))))
+    )
+  data$Links <- elem$getElementAttribute("outerHTML")[[1]] %>%
+    htmlTreeParse(useInternalNodes=TRUE) %>% 
+    xpathApply("//a", xmlGetAttr, 'href') %>% 
+    unlist %>% grep("Eventteam",., value=TRUE) %>% .[1:length(data$Against)]
+  
+  for(j in 1:length(data$Links)){
+    oppID = grep(data$Links[j], teams$Links, fixed=TRUE)
+    if( length(oppID) >0){
+      if( oppID > i){
+        scores <- bind_rows(scores, 
+                            tibble(Team1=teams$Team[i], 
+                                   Score1=data$For[j], 
+                                   Team2=teams$Team[oppID], 
+                                   Score2=data$Against[j], 
+                                   Date=data$Date[j])
+        )
+        if(!is.na(data$For[j]) && !is.na(data$Against[j])){
+          if(data$For[j]>data$Against[j]){
+            teams$Wins[i]=teams$Wins[i]+1;
+            teams$Losses[oppID]=teams$Losses[oppID]+1;
+          } else{
+            teams$Losses[i]=teams$Losses[i]+1;
+            teams$Wins[oppID]=teams$Wins[oppID]+1;
+          }
+        }
+      }
+    }
+    #if opposing team is later in list (match on URL) add the game to the dataframe of games
+    
+    
+  }
+}
+scores <- scores %>% filter(!is.na(Score1) & !is.na(Score2))
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+```{r}
+remDr$close()
+rD[["server"]]$stop()
+gc(rD)
+```
+```{r}
+save(scores, teams, file=paste0("WomensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
+```
+
+```{r}
+
+#MOV of 6 is insurmountable
+P=matrix(c(1   ,-1/2,0   ,0,0,0,0,0,0,0,0,
+           -1/2,1   ,-1/2,0   ,0,0,0,0,0,0,0,
+           0   ,-1/2,1   ,-1/2,0   ,0,0,0,0,0,0,
+           0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,0,
+           0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,
+           0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,
+           0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,
+           0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,
+           0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,
+           0,0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,
+           0,0,0,0,0,0,0,0   ,0   ,-1/2,1   )
+         ,nrow=11)
+v=c(0,0,0,0,0,0,0,0,0,0,1/2)
+shares<-solve(P,v)
+```
+```{r}
+library(Matrix)
+A=sparseMatrix(seq(1,length(teams$Team)),seq(1,length(teams$Team)),x=0)
+b=rep(1,length(teams$Team))
+
+for(i in 1:length(scores$Team1)){
+  if(abs(scores[i,]$Score1-scores[i,]$Score2)>=6){
+    if(scores[i,]$Score1>scores[i,]$Score2){
+      Share1<-1
+      Share2<-0
+    } else{
+      Share2<-1
+      Share1<-0
+    }
+  } else{
+    Share1<-shares[scores[i,]$Score1-scores[i,]$Score2+6]
+    Share2<-1-Share1
+  }
+  team1=match(scores[i,]$Team1,teams$Team)
+  team2=match(scores[i,]$Team2,teams$Team)
+  if( is.na(team1) | is.na(team2)){ next }
+  A[team1,team2]=
+    A[team1,team2]+Share2
+  A[team2,team1]=
+    A[team2,team1]+Share1
+  A[team1,team1]=
+    A[team1,team1]+Share1
+  A[team2,team2]=
+    A[team2,team2]+Share2
+}
+image(A)
+
+```
+```{r}
+which(rowSums(A)==0)
+```
+
+
+```{r}
+A_unnormed <- A
+for(i in 1:length(teams$Team)){
+  if(sum(A[i,])!=0){ 
+    A[i,]=A[i,]/sum(A[i,])
+  }
+}
+```
+```{r}
+
+b=t(rep(1,length(teams$Team)))
+for( i in 1:1000){
+  b<-b%*%A
+}
+```
+
+```{r}
+library(tidyverse)
+teams$Index = 1:length(teams$Team)
+rankedteams<-bind_cols(teams, tibble(Rating=as.numeric(b)))
+rankedteams <-arrange(rankedteams, desc(Rating))
+```
+
+```{r}
+write.csv(rankedteams, paste("USAU College Women RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
+
+```
+
