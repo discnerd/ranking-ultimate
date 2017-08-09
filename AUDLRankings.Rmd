@@ -1,0 +1,32 @@
+---
+title: "AUDL Rankings"
+author: "Matt Rissler"
+date: "August 9, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rvest)
+library(tidyverse)
+
+```
+
+
+
+```{r pullTeams}
+teams <-read_html("http://theaudl.com/teams")
+team_names <- teams %>% html_nodes("h3+ h3 a:nth-child(1)") %>% html_text()
+team_links <- teams %>% html_nodes("h3+ h3 a:nth-child(1)") %>% html_attr("href")
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
