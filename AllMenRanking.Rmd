@@ -73,7 +73,9 @@ for( n in 2:num_pages){
 
 rm(data)
 rm(elem)
-teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% filter( !grepl("[Tt]esting",Team)) %>% arrange(Team) 
+teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% 
+  filter( !grepl("[Tt]esting",Team)) %>% 
+  filter(`Competition Level` != "College") %>%  arrange(Team) 
 
 teams <- teams %>% mutate(Wins = 0, Losses = 0)
 
@@ -246,7 +248,7 @@ for(i in 1:length(teams$Team)){
 ```{r}
 
 b=t(rep(1,length(teams$Team)))
-for( i in 1:1000){
+for( i in 1:10000){
   b<-b%*%A
 }
 ```

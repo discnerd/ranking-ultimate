@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE, message =  FALSE)
 library(tidyverse)
 library(readr)
 library(stringr)
+old_date="2017 08 14"
+date="2017 08 21"
 ```
 
 #Men
@@ -17,8 +19,8 @@ library(stringr)
 ##Club
 
 ```{r MenClub, echo=FALSE, results="asis"}
-Ranking <- read_csv("USAU Club Men RW2017 08 07.csv")
-oldRanking <- read_csv("USAU Club Men RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Club Men RW",date,".csv"))
+oldRanking <- read_csv(paste0("USAU Club Men RW",old_date,".csv"))
 
 Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
   mutate(Rank.diff = Rank.y-Rank.x) %>%
@@ -66,8 +68,8 @@ Ranking %>% head(25) %>% knitr::kable()
 
 
 ```{r WomenClub, echo=FALSE, results="asis"}
-Ranking <- read_csv("USAU Club Women RW2017 08 07.csv")
-oldRanking <- read_csv("USAU Club Women RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Club Women RW",date,".csv"))
+oldRanking <- read_csv(paste0("USAU Club Women RW",old_date,".csv"))
 
 Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
   mutate(Rank.diff = Rank.y-Rank.x) %>%
@@ -109,8 +111,8 @@ Ranking %>% head(25) %>% knitr::kable()
 ##Club
 
 ```{r MixedClub, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Club Mixed RW2017 08 07.csv")
-oldRanking <- read_csv("USAU Club Mixed RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Club Mixed RW",date,".csv"))
+oldRanking <- read_csv(paste0("USAU Club Mixed RW",old_date,".csv"))
 
 Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
   mutate(Rank.diff = Rank.y-Rank.x) %>%

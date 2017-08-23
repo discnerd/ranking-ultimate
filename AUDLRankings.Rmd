@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(rvest)
 library(tidyverse)
+library(stringr)
 
 ```
 
@@ -18,15 +19,134 @@ library(tidyverse)
 teams <-read_html("http://theaudl.com/teams")
 team_names <- teams %>% html_nodes("h3+ h3 a:nth-child(1)") %>% html_text()
 team_links <- teams %>% html_nodes("h3+ h3 a:nth-child(1)") %>% html_attr("href")
+all_teams <- tibble(Team = team_names,Wins = rep(0,length(team_names)), Losses= rep(0,length(team_names)), Link=team_links)
 
 ```
 
-## Including Plots
+```{r pullGames, warning=False}
+base_url <- "http://theaudl.com/scores/2017/"
+all_scores <-tibble(Time=character(), 
+                         `Away Team`=character(), `Away Score`=integer(),
+                         `Home Team`=character(), `Home Score`=integer())
+for(i in c(1:17,"playoffs")){
+  if(!is.na(as.numeric(i))){
+    this_week <- read_html(paste0(base_url,"Week-", i))
+  } else{
+    this_week <- read_html(paste0(base_url, i))
+  }
+  
+  this_teams <- this_week %>% 
+    html_nodes("td") %>% html_nodes("a") %>% 
+    html_attr("href") %>% matrix(ncol=3, byrow=TRUE) %>% 
+    as.tibble()
+  colnames(this_teams) <- c("Away","Home")
 
-You can also embed plots, for example:
+  this_scores <- this_week %>% html_nodes("table") %>%
+    html_table(header=TRUE) %>% bind_rows() %>% 
+    select(contains("e"))
+  #View(this_scores)
+  #Sys.sleep(5)
+  
+  this_scores <- this_scores %>% 
+    mutate(`Away Team`= this_teams$Away, `Home Team`=this_teams$Home) %>%
+    filter(str_detect(Result, "-")) %>%
+    separate(Result, c("Away Score", "Home Score", "OT"), convert=TRUE) %>%
+    as.tibble()
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+  all_scores <- bind_rows(all_scores, this_scores)
+  #Need to put in team links and then probably a join with all_teams
+
+  
+}
+
+
+all_scores <- all_scores %>% mutate(`Away Team`= str_replace(`Away Team`, "http://theaudl.com", ""),
+                      `Home Team`= str_replace(`Home Team`, "http://theaudl.com", ""))
+
+head(all_scores)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r setupMatrices}
+#MOV of 7 is insurmountable
+maxMOV=7
+P=matrix(c(1   ,-1/2,0   ,0,0,0,0,0,0,0,0,0,0,
+           -1/2,1   ,-1/2,0   ,0,0,0,0,0,0,0,0,0,
+           0   ,-1/2,1   ,-1/2,0   ,0,0,0,0,0,0,0,0,
+           0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,0,0,0,
+           0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,0,0,
+           0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,0,
+           0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,
+           0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,
+           0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,
+           0,0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,
+           0,0,0,0,0,0,0,0   ,0   ,-1/2,1 , -1/2, 0,
+           0,0,0,0,0,0,0,0,0   ,0   ,-1/2,1 , -1/2,
+           0,0,0,0,0,0,0,0,0,0   ,0   ,-1/2,1 
+           )
+         ,nrow=13)
+v=c(0,0,0,0,0,0,0,0,0,0,0,0,1/2)
+shares<-solve(P,v)
+
+library(Matrix)
+A=sparseMatrix(seq(1,length(all_teams$Team)),seq(1,length(all_teams$Team)),x=0)
+b=rep(1,length(all_teams$Team))
+
+
+for(i in 1:length(all_scores$Time)){
+  away=all_scores[i,]$`Away Score`
+  home=all_scores[i,]$`Home Score`
+  if(is.na(home) | is.na(away)){ next }
+  if(abs(away-home)>=maxMOV){
+    if(away>home){
+      Share1<-1
+      Share2<-0
+    } else{
+      Share2<-1
+      Share1<-0
+    }
+  } else{
+    Share1<-shares[away-home+maxMOV]
+    Share2<-1-Share1
+  }
+  team1=match(all_scores[i,]$`Away Team`,all_teams$Link)
+  team2=match(all_scores[i,]$`Home Team`,all_teams$Link)
+  if( is.na(team1) | is.na(team2)){ next }
+  A[team1,team2]=
+    A[team1,team2]+Share2
+  A[team2,team1]=
+    A[team2,team1]+Share1
+  A[team1,team1]=
+    A[team1,team1]+Share1
+  A[team2,team2]=
+    A[team2,team2]+Share2
+  if(Share1>Share2)
+  {
+    all_teams[team1,]$Wins = all_teams[team1,]$Wins + 1
+    all_teams[team2,]$Losses = all_teams[team2,]$Losses + 1
+  } else{
+    all_teams[team2,]$Wins = all_teams[team2,]$Wins + 1
+    all_teams[team1,]$Losses = all_teams[team1,]$Losses + 1
+  }
+}
+```
+
+```{r doRanking}
+
+A_unnormed <- A
+for(i in 1:length(all_teams$Team)){
+  if(sum(A[i,])!=0){ 
+    A[i,]=A[i,]/sum(A[i,])
+  }
+}
+
+ranking <- all_teams
+b<- Re(eigen(t(A))$vectors[,1]/sum(eigen(t(A))$vectors[,1])*length(eigen(t(A))$vectors[,1]))
+ranking$Rating <- b
+
+ranking <-mutate(ranking, Ranking = dense_rank(-Rating)) %>% arrange(desc(Rating)) %>% select(Ranking, Rating, Team:Losses)
+
+
+knitr::kable(ranking)
+
+```
