@@ -23,12 +23,12 @@ all_teams <- tibble(Team = team_names,Wins = rep(0,length(team_names)), Losses= 
 
 ```
 
-```{r pullGames, warning=False}
+```{r pullGames, warning=FALSE}
 base_url <- "http://theaudl.com/scores/2017/"
 all_scores <-tibble(Time=character(), 
                          `Away Team`=character(), `Away Score`=integer(),
                          `Home Team`=character(), `Home Score`=integer())
-for(i in c(1:17,"playoffs")){
+for(i in c(1:17,"playoffs", "championship-weekend")){
   if(!is.na(as.numeric(i))){
     this_week <- read_html(paste0(base_url,"Week-", i))
   } else{
@@ -42,8 +42,13 @@ for(i in c(1:17,"playoffs")){
   colnames(this_teams) <- c("Away","Home")
 
   this_scores <- this_week %>% html_nodes("table") %>%
-    html_table(header=TRUE) %>% bind_rows() %>% 
+    html_table(header=TRUE) %>% bind_rows() #%>% 
+  if(dim(this_scores)[2] > 5){
+    this_scores <-this_scores[1:4]  
+  } else{ 
+    this_scores <- this_scores %>%
     select(contains("e"))
+  }
   #View(this_scores)
   #Sys.sleep(5)
   
@@ -150,3 +155,11 @@ ranking <-mutate(ranking, Ranking = dense_rank(-Rating)) %>% arrange(desc(Rating
 knitr::kable(ranking)
 
 ```
+
+
+```{r}
+igraph::graph_from_adjacency_matrix(A_unnormed, weighted=TRUE, diag=TRUE) %>% igraph::plot.igraph()
+all_teams
+
+```
+
