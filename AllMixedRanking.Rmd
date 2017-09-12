@@ -109,7 +109,7 @@ scores <-data.frame(Team1=character(), Score1=numeric(),
                     Team2=character(), Score2=numeric(), Date=character())
 
 for( i in 1:length(teams$Team)){
-  Sys.sleep(runif(1))
+  #Sys.sleep(runif(1))
   url <- paste0("http://play.usaultimate.org", teams$Links[i])
   remDr$navigate(url)
   #pull table of games
