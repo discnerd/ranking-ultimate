@@ -1,7 +1,7 @@
 ---
 title: "Print Tables"
 author: "Matt Rissler, PhD"
-date: "April 25, 2017"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
@@ -10,8 +10,8 @@ knitr::opts_chunk$set(echo = TRUE, message =  FALSE)
 library(tidyverse)
 library(readr)
 library(stringr)
-date="2017 09 11"
-old_date="2017 08 30"
+old_date="2017 09 11"
+date="2017 09 19"
 ```
 
 #Men

@@ -1,8 +1,9 @@
 ---
-title: "R Notebook"
-output:
-html_document: default
-html_notebook: default
+title: "USAU Womens Rankings"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 
@@ -279,3 +280,42 @@ rankedteams %>% filter(`Competition Level`== "Grand Masters") %>% mutate(Rank=de
 
 ```
 
+
+```{r networkSetup}
+library(tidyverse)
+library(network)
+library(sna)
+library(ggnetwork)
+library(forcats)
+library(readr)
+division="Women"
+level="Club"
+
+clubTeams <- teams %>% filter(`Competition Level` == level)
+clubScores <- scores %>% filter(Team1 %in% clubTeams$Team & Team2 %in% clubTeams$Team)
+Ranking <- rankedteams %>% filter(`Competition Level`== level) %>% mutate(Rank=dense_rank(desc(Rating))) %>% select(Rank, Team, Wins, Losses, Rating, City, State)
+n<-network.initialize(nrow(clubTeams), directed = TRUE, multiple = TRUE)
+network.vertex.names(n)<-clubTeams$Team
+n %v% "rank" <- left_join(clubTeams, Ranking, by = "Team" ) %>%
+  .$Rank
+n %v% "rating" <- left_join(clubTeams, Ranking, by = "Team" ) %>%
+  .$Rating
+add.edges(n, 
+          parse_factor(clubScores$Team1,clubTeams$Team), 
+          parse_factor(clubScores$Team2,clubTeams$Team), 
+          names.eval = rep("PtDiff", nrow(clubScores)), 
+          vals.eval = clubScores %>% mutate(PtDiff= Score1 - Score2) %>%
+            .$PtDiff )
+```
+
+## Game Network
+
+```{r plotNetwork}
+net<-ggnetwork(n %s% which( n %v% "rank" < 26), layout="fruchtermanreingold")
+ggplot(net, aes(x = x, y = y, xend = xend, yend = yend))+
+  geom_edges(alpha=0.1)+
+  geom_nodes( aes(color=rating), alpha=0.5 ) +theme_blank()+
+  scale_color_gradient(low="purple", high="gold")+
+  geom_nodelabel_repel(aes(label=vertex.names))
+
+```
