@@ -1,0 +1,200 @@
+---
+title: "R Notebook"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+```{r}
+library(tidyverse)
+```
+```{r}
+load("AllWomenScores2017 10 05.Rdata")
+source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
+
+#MOV of 6 is insurmountable
+P=matrix(c(1   ,-1/2,0   ,0,0,0,0,0,0,0,0,
+           -1/2,1   ,-1/2,0   ,0,0,0,0,0,0,0,
+           0   ,-1/2,1   ,-1/2,0   ,0,0,0,0,0,0,
+           0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,0,
+           0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,0,
+           0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,0,
+           0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,0,
+           0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,0,
+           0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,0,
+           0,0,0,0,0,0,0   ,0   ,-1/2,1   ,-1/2,
+           0,0,0,0,0,0,0,0   ,0   ,-1/2,1   )
+         ,nrow=11)
+v=c(0,0,0,0,0,0,0,0,0,0,1/2)
+shares<-solve(P,v)
+```
+```{r}
+library(Matrix)
+A=sparseMatrix(seq(1,length(teams$Team)),seq(1,length(teams$Team)),x=0)
+b=rep(1,length(teams$Team))
+
+for(i in 1:length(scores$Team1)){
+  if(abs(scores[i,]$Score1-scores[i,]$Score2)>=6){
+    if(scores[i,]$Score1>scores[i,]$Score2){
+      Share1<-1
+      Share2<-0
+    } else{
+      Share2<-1
+      Share1<-0
+    }
+  } else{
+    Share1<-shares[scores[i,]$Score1-scores[i,]$Score2+6]
+    Share2<-1-Share1
+  }
+  team1=match(scores[i,]$Team1,teams$Team)
+  team2=match(scores[i,]$Team2,teams$Team)
+  if( is.na(team1) | is.na(team2) |length(team1)>1 | length(team2)>1){ 
+    cat(scores[i,]$Team1, ":", team1, "\n",
+        scores[i,]$Team2, ":", team2) 
+    next }
+  A[team1,team2]=
+    A[team1,team2]+Share2
+  A[team2,team1]=
+    A[team2,team1]+Share1
+  A[team1,team1]=
+    A[team1,team1]+Share1
+  A[team2,team2]=
+    A[team2,team2]+Share2
+}
+#image(A)
+
+
+A_unnormed <- A
+for(i in 1:length(teams$Team)){
+  if(sum(A[i,])!=0){ 
+    A[i,]=A[i,]/sum(A[i,])
+  }
+}
+
+library(expm)
+b=t(rep(1,length(teams$Team)))
+e<-Re(eigen(t(A))$vectors[,1])
+#b<-e/sum(e)*length(e)
+for( i in 1:10000){
+  b<-b%*%A
+}
+
+library(tidyverse)
+teams$Index = 1:length(teams$Team)
+rankedteams<-bind_cols(teams, tibble(Rating=as.numeric(b)))
+rankedteams <-arrange(rankedteams, desc(Rating))
+
+```
+
+```{r}
+#Atlantic Coast
+#rankedteams %>% filter(State %in% c("MD", "DE", "DC", "NC", "SC", "VA")) %>% select(Team, Index, Rating, Wins, Losses)
+#Great Lakes
+#rankedteams %>% filter(State %in% c("IL", "IN", "KY", "MI")) %>% select(Team, Index, Rating, Wins, Losses)
+#New England
+#rankedteams %>% filter(State %in% c("ME", "MA", "NH", "RI", "VT")) %>% select(Team, Index, Rating, Wins, Losses)
+#South Central
+#rankedteams %>% filter(State %in% c("AR", "CO", "KS", "MO", "OK", "TX", "WY")) %>% filter(`Competition Division`=="Division I") %>% select(Team, Index, Rating, Wins, Losses)
+#Southeast
+#rankedteams %>% filter(State %in% c("AL", "FL", "GA", "LA", "MS", "TN")) %>% filter(`Competition Division`=="Division I")%>% select(Team, Index, Rating, Wins, Losses)
+#rankedteams  %>% filter(`Competition Division`=="Division I")%>% select(Team, Index, Rating, Wins, Losses)
+
+rankedteams   %>% 
+  filter(`Competition Level` == "Club") %>% 
+  mutate(Ranking=min_rank(desc(Rating)))%>%
+  #filter(Index %in% indices) %>%
+  #arrange( Index) %>% 
+  #arrange( order(indices)) %>%
+  #mutate(Seed = row_number()) %>% 
+  select(Index, Team, Ranking, Rating, Wins, Losses )  %>% knitr::kable()
+#rankedteams  %>% filter(`Competition Level` == "Club") %>% select(Team, Index, Rating, Wins, Losses) %>% .$Index
+```
+
+```{r}
+bids <- 1
+indices <- c(78, 10, 48, 27,
+             75, 93, 58, 1,
+             54, 31, 64, 80,
+             95, 69, 76, 53)
+
+#indices <- c(48,155,,,,,54,,,,,140,181,293,132,,)
+e <- b
+#e<-Re(eigen(t(A))$vectors[,1])
+#e<-e/sum(e)*length(e)
+# possibleTeams <-indices[1:bids]
+# cat(possibleTeams, " ")
+# team <-bids+1
+# possible =TRUE
+# while(possible){
+#   if(Predict_Margin(A_unnormed, c(0,shares,1),
+#                     indices[team],possibleTeams[bids], e)>-4 ){
+#     possibleTeams <- indices[1:team]
+#     cat(possibleTeams[team], " ")
+#     team=team+1
+#     if(team > length(indices)){
+#       possible = FALSE
+#     }
+#   } else{
+#     possible = FALSE
+#   }
+# }
+#indices <-sort(indices)
+rankedteams   %>% 
+  filter(`Competition Level` == "Club") %>% 
+  mutate(Ranking=min_rank(desc(Rating)))%>%
+  filter(Index %in% indices) %>%
+  arrange( Index) %>% 
+  arrange( order(indices)) %>%
+  mutate(Seed = row_number()) %>% 
+  select(Seed, Team, Ranking, Rating, Wins, Losses )  %>% knitr::kable()
+```
+```{r}
+
+MOV=diag(rep(0,length(indices)))
+for( i in 1:(length(indices)-1)){
+  for(j in (i+1):length(indices)){
+    MOV[i,j]= Predict_Margin(A_unnormed , c(0,shares,1), indices[j], indices[i], e)
+    cat(teams$Team[indices[i]]," ", teams$Team[indices[j]], ":", MOV[i,j], "\n")
+    MOV[j,i]=-MOV[i,j]
+  }
+}
+
+
+```
+
+
+
+
+```{r }
+rownames(MOV) <-teams$Team[indices]
+colnames(MOV) <-teams$Team[indices]
+#print(xtable::xtable(MOV), type="html")
+MOV
+
+```
+
+```{r poolA}
+pool<-c(1,8,12,13)
+MOV[pool,pool]
+print(xtable::xtable(MOV[pool,pool]), type="html")
+```
+
+```{r poolB}
+pool<-c(2,7,11,14)
+MOV[pool,pool]
+print(xtable::xtable(MOV[pool,pool]), type="html")
+```
+
+
+```{r poolC}
+pool<-c(3,6,10,15)
+MOV[pool,pool]
+print(xtable::xtable(MOV[pool,pool]), type="html")
+```
+
+
+```{r poolD}
+pool<-c(4,5,9,16)
+MOV[pool,pool]
+print(xtable::xtable(MOV[pool,pool]), type="html")
+```

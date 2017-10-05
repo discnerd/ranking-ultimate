@@ -76,7 +76,8 @@ rm(data)
 rm(elem)
 teams <- teams %>% filter( Wins !=0 | Losses !=0) %>% 
   filter( !grepl("[Tt]esting",Team)) %>% 
-  filter(`Competition Level` != "College") %>%  arrange(Team) 
+  filter(`Competition Level` != "College") %>%  
+  arrange(Team) 
 
 teams <- teams %>% mutate(Wins = 0, Losses = 0)
 

@@ -10,8 +10,8 @@ knitr::opts_chunk$set(echo = TRUE, message =  FALSE)
 library(tidyverse)
 library(readr)
 library(stringr)
-old_date="2017 09 11"
-date="2017 09 19"
+date="2017 09 25"
+old_date="2017 09 19"
 ```
 
 #Men
