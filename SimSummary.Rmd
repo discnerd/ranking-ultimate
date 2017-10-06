@@ -1,0 +1,126 @@
+---
+title: "Simulation Summary"
+author: "Matt Rissler"
+date: "October 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+##Women
+
+```{r loadDataWomen}
+
+load("WomenNationalsMOVs.Rdata")
+
+load("WomenSim.Rdata")
+n<-nrow(results)/16
+```
+
+```{r displayPoolsWomen}
+results %>% 
+  ungroup() %>%
+  group_by(team, pool_place, pool_name) %>%
+  summarise(times=n()/n) %>% 
+  ungroup() %>%
+  mutate(team= parse_factor(team, rownames(MOV))) %>%
+  spread(pool_place, times) %>%
+  arrange(pool_name, team) %>%
+  knitr::kable()
+
+results %>% 
+  ungroup() %>%
+  group_by(team,  pool_name,pool_place) %>%
+  summarise(count=n()) %>%
+  ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
+  labs(x="Place", y="Proportion times", fill="Team")
+```
+
+```{r displayBracketWomen}
+bracket_summary %>%
+  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
+
+bracket_summary %>% spread(round, times) %>% 
+  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
+
+```
+
+
+##Men
+
+```{r loadDataMen}
+
+load("MenNationalsMOVs.Rdata")
+load("MensSim.Rdata")
+n<-nrow(results)/16
+```
+
+```{r displayPoolsMen}
+results %>% 
+  ungroup() %>%
+  group_by(team, pool_place, pool_name) %>%
+  summarise(times=n()/n) %>% 
+  ungroup() %>%
+  mutate(team= parse_factor(team, rownames(MOV))) %>%
+  spread(pool_place, times) %>%
+  arrange(pool_name, team) %>%
+  knitr::kable()
+
+results %>% 
+  ungroup() %>%
+  group_by(team,  pool_name,pool_place) %>%
+  summarise(count=n()) %>%
+  ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
+  labs(x="Place", y="Proportion times", fill="Team")
+```
+
+```{r displayBracketMen}
+bracket_summary %>%
+  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
+
+bracket_summary %>% spread(round, times) %>% 
+  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
+
+```
+
+
+##Mixed
+
+```{r loadDataMixed}
+
+load("MixedNationalsMOVs.Rdata")
+load("MixedSim.Rdata")
+n<-nrow(results)/16
+```
+
+```{r displayPoolsMixed}
+results %>% 
+  ungroup() %>%
+  group_by(team, pool_place, pool_name) %>%
+  summarise(times=n()/n) %>% 
+  ungroup() %>%
+  mutate(team= parse_factor(team, rownames(MOV))) %>%
+  spread(pool_place, times) %>%
+  arrange(pool_name, team) %>%
+  knitr::kable()
+
+results %>% 
+  ungroup() %>%
+  group_by(team,  pool_name,pool_place) %>%
+  summarise(count=n()) %>%
+  ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
+  labs(x="Place", y="Proportion times", fill="Team")
+```
+
+```{r displayBracketMixed}
+bracket_summary %>%
+  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
+
+bracket_summary %>% spread(round, times) %>% 
+  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
+
+```

@@ -6,7 +6,7 @@
 #1 v 2
 #3 v 4
 library(tidyverse)
-load("../MixedNationalsMOVs.Rdata")
+load("MixedNationalsMOVs.Rdata")
 n<-10000
 poolA<-c(1,8,12,13)
 poolB<-c(2,7,11,14)

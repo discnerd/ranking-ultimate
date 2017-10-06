@@ -1,13 +1,24 @@
+---
+title: "USAU Womens Predictions"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document: 
+    keep_md: yes
+---
 
-#1 v 4
-#2 v 3
-#1 v 3
-#2 v 4
-#1 v 2
-#3 v 4
+
+
+<!-- #1 v 4  -->
+<!-- #2 v 3 -->
+<!-- #1 v 3 -->
+<!-- #2 v 4 -->
+<!-- #1 v 2 -->
+<!-- #3 v 4  -->
+
+```{r setup, include=FALSE}
 library(tidyverse)
-load("MenNationalsMOVs.Rdata")
-n<-100
+load("WomenNationalsMOVs.Rdata")
+n<-10000
 poolA<-c(1,8,12,13)
 poolB<-c(2,7,11,14)
 poolC<-c(3,6,10,15)
@@ -47,32 +58,6 @@ Get_Pool_results<- function(MOV, pool, pool_name, n){
 }
 
 
-results<- bind_rows(Get_Pool_results(MOV, poolA, "A", n),
-                    Get_Pool_results(MOV, poolB, "B", n),
-                    Get_Pool_results(MOV, poolC, "C", n),
-                    Get_Pool_results(MOV, poolD, "D", n))
-
-results <- results %>% mutate(round="pool")
-
-results %>% 
-  ungroup() %>% select( -pt_diff, -wins, -round) %>%
-  group_by(pool_name, pool_place) %>%
-  nest() 
-  
-results %>% 
-  ungroup() %>%
-  group_by(team, pool_place, pool_name) %>%
-  summarise(count=n()) %>%
-  ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
-  labs(x="Place", y="Proportion times", fill="Team")
-
-results <- results %>% mutate(round="pool")
-
-
-pq_results <- tibble(sim=rep(NA_integer_,4*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
-q_results <- tibble(sim=rep(NA_integer_,4*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
-s_results <- tibble(sim=rep(NA_integer_,2*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
-f_results <- tibble(sim=rep(NA_integer_,n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
 
 Get_PQ_result<-function(MOV, results, simulation, pool_name1, pool_place1, pool_name2, pool_place2 ){
   team1=which(filter(results, sim==simulation & pool_name==pool_name1 & pool_place==pool_place1) %>% .$team == rownames(MOV))
@@ -90,7 +75,48 @@ Get_Game_result<-function(MOV, team1, team2){
   mov=if_else(score >=15, 15-(29-score), -(15-score))
   return(c(team1, team2, score, mov))
 }
+```
 
+```{r simulatePools}
+results<- bind_rows(Get_Pool_results(MOV, poolA, "A", n),
+                    Get_Pool_results(MOV, poolB, "B", n),
+                    Get_Pool_results(MOV, poolC, "C", n),
+                    Get_Pool_results(MOV, poolD, "D", n))
+```
+
+```{r displayResults}
+results <- results %>% mutate(round="pool")
+
+
+results %>% 
+  ungroup() %>%
+  group_by(team, pool_place, pool_name) %>%
+  summarise(times=n()/n) %>% 
+  ungroup() %>%
+  mutate(team= parse_factor(team, rownames(MOV))) %>%
+  spread(pool_place, times) %>%
+  arrange(pool_name, team) %>%
+  knitr::kable()
+
+results %>% 
+  ungroup() %>%
+  group_by(team,  pool_name,pool_place) %>%
+  summarise(count=n()) %>%
+  ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
+  labs(x="Place", y="Proportion times", fill="Team")
+
+```
+
+
+```{r setupBracket, include=FALSE}
+pq_results <- tibble(sim=rep(NA_integer_,4*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
+q_results <- tibble(sim=rep(NA_integer_,4*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
+s_results <- tibble(sim=rep(NA_integer_,2*n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
+f_results <- tibble(sim=rep(NA_integer_,n),team1=NA_integer_,team2=NA_integer_, score=NA_integer_, mov=NA_integer_, game=NA_character_)
+
+```
+
+```{r simulateBracket}
 for(i in 1:n){
   #Prequarters
   #B2 v C3
@@ -152,6 +178,10 @@ for(i in 1:n){
   if(i %% 100==0)   cat(i, "\n")
 }
 
+```
+
+
+```{r cleanUpBracket}
 braket_results <- bind_rows(pq_results,q_results,s_results,f_results)
 
 braket_results <- braket_results %>% 
@@ -178,11 +208,17 @@ bracket_summary <- braket_results %>%
          round=parse_factor(round, c("PQ", "Q", "S", "F", "C")),
          team=parse_factor(team, levels=rownames(MOV))) %>% select(-win) %>%
   bind_rows(bracket_summary) 
+```
 
+```{r displayBracket}
 bracket_summary %>%
   ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
 
 bracket_summary %>% spread(round, times) %>% 
   mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
 
-save(results, braket_results, bracket_summary, file="MensSim.Rdata")
+```
+
+```{r saveResults}
+save(results, braket_results, bracket_summary, file="WomenSim.Rdata")
+```
