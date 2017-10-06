@@ -6,8 +6,8 @@
 #1 v 2
 #3 v 4
 library(tidyverse)
-load("MenNationalsMOVs.Rdata")
-n<-100
+load("../MixedNationalsMOVs.Rdata")
+n<-10000
 poolA<-c(1,8,12,13)
 poolB<-c(2,7,11,14)
 poolC<-c(3,6,10,15)
@@ -181,4 +181,4 @@ bracket_summary %>%
 bracket_summary %>% spread(round, times) %>% 
   mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
 
-save(results, braket_results, bracket_summary, file="MensSim.Rdata")
+save(results, braket_results, bracket_summary, file="MixedSim.Rdata")
