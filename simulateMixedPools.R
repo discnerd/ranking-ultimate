@@ -130,18 +130,18 @@ for(i in 1:n){
     q_results[i+3*n,] <- c(Get_PQ_result(MOV, loop_results, i, "B", 1, "A", 2),"Q 4")
   }
   
-  Q1winner <- ifelse(as.numeric(q_results[i,]$mov>0), q_results[i,]$team1, q_results[i,]$team2)
-  Q2winner <- ifelse(as.numeric(q_results[i+n,]$mov>0), q_results[i+n,]$team1, q_results[i+n,]$team2)
+  Q1winner <- ifelse(as.numeric(q_results[i,]$mov)>0, q_results[i,]$team1, q_results[i,]$team2)
+  Q2winner <- ifelse(as.numeric(q_results[i+n,]$mov)>0, q_results[i+n,]$team1, q_results[i+n,]$team2)
   
   s_results[i,] <- c(i,Get_Game_result(MOV, Q1winner, Q2winner), "S 1")
   
-  Q3winner <- ifelse(as.numeric(q_results[i+2*n,]$mov>0), q_results[i+2*n,]$team1, q_results[i+2*n,]$team2)
-  Q4winner <- ifelse(as.numeric(q_results[i+3*n,]$mov>0), q_results[i+3*n,]$team1, q_results[i+3*n,]$team2)
+  Q3winner <- ifelse(as.numeric(q_results[i+2*n,]$mov)>0, q_results[i+2*n,]$team1, q_results[i+2*n,]$team2)
+  Q4winner <- ifelse(as.numeric(q_results[i+3*n,]$mov)>0, q_results[i+3*n,]$team1, q_results[i+3*n,]$team2)
   
   s_results[i+n,] <- c(i,Get_Game_result(MOV, Q3winner, Q4winner), "S 2")
   
-  S1winner <- ifelse(as.numeric(s_results[i,]$mov>0), s_results[i,]$team1, s_results[i,]$team2)
-  S2winner <- ifelse(as.numeric(s_results[i+n,]$mov>0), s_results[i+n,]$team1, s_results[i+n,]$team2)
+  S1winner <- ifelse(as.numeric(s_results[i,]$mov)>0, s_results[i,]$team1, s_results[i,]$team2)
+  S2winner <- ifelse(as.numeric(s_results[i+n,]$mov)>0, s_results[i+n,]$team1, s_results[i+n,]$team2)
   
   f_results[i,] <- c(i,Get_Game_result(MOV, S1winner, S2winner), "F 1")
   
@@ -178,7 +178,7 @@ bracket_summary <- braket_results %>%
 bracket_summary %>%
   ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
 
-bracket_summary %>% spread(round, times) %>% 
-  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
+bracket_summary %>% spread(round, times, fill=0) %>% 
+  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) 
 
 save(results, braket_results, bracket_summary, file="MixedSim.Rdata")

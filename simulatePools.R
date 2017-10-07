@@ -7,7 +7,7 @@
 #3 v 4
 library(tidyverse)
 load("MenNationalsMOVs.Rdata")
-n<-100
+n<-10000
 poolA<-c(1,8,12,13)
 poolB<-c(2,7,11,14)
 poolC<-c(3,6,10,15)
@@ -54,10 +54,10 @@ results<- bind_rows(Get_Pool_results(MOV, poolA, "A", n),
 
 results <- results %>% mutate(round="pool")
 
-results %>% 
-  ungroup() %>% select( -pt_diff, -wins, -round) %>%
-  group_by(pool_name, pool_place) %>%
-  nest() 
+# results %>% 
+#   ungroup() %>% select( -pt_diff, -wins, -round) %>%
+#   group_by(pool_name, pool_place) %>%
+#   nest() 
   
 results %>% 
   ungroup() %>%
@@ -134,22 +134,26 @@ for(i in 1:n){
     q_results[i+3*n,] <- c(Get_PQ_result(MOV, loop_results, i, "B", 1, "A", 2),"Q 4")
   }
   
-  Q1winner <- ifelse(as.numeric(q_results[i,]$mov>0), q_results[i,]$team1, q_results[i,]$team2)
-  Q2winner <- ifelse(as.numeric(q_results[i+n,]$mov>0), q_results[i+n,]$team1, q_results[i+n,]$team2)
+  Q1winner <- ifelse(as.numeric(q_results[i,]$mov)>0, q_results[i,]$team1, q_results[i,]$team2)
+  Q2winner <- ifelse(as.numeric(q_results[i+n,]$mov)>0, q_results[i+n,]$team1, q_results[i+n,]$team2)
   
   s_results[i,] <- c(i,Get_Game_result(MOV, Q1winner, Q2winner), "S 1")
   
-  Q3winner <- ifelse(as.numeric(q_results[i+2*n,]$mov>0), q_results[i+2*n,]$team1, q_results[i+2*n,]$team2)
-  Q4winner <- ifelse(as.numeric(q_results[i+3*n,]$mov>0), q_results[i+3*n,]$team1, q_results[i+3*n,]$team2)
+  Q3winner <- ifelse(as.numeric(q_results[i+2*n,]$mov)>0, q_results[i+2*n,]$team1, q_results[i+2*n,]$team2)
+  Q4winner <- ifelse(as.numeric(q_results[i+3*n,]$mov)>0, q_results[i+3*n,]$team1, q_results[i+3*n,]$team2)
   
   s_results[i+n,] <- c(i,Get_Game_result(MOV, Q3winner, Q4winner), "S 2")
   
-  S1winner <- ifelse(as.numeric(s_results[i,]$mov>0), s_results[i,]$team1, s_results[i,]$team2)
-  S2winner <- ifelse(as.numeric(s_results[i+n,]$mov>0), s_results[i+n,]$team1, s_results[i+n,]$team2)
+  S1winner <- ifelse(as.numeric(s_results[i,]$mov)>0, s_results[i,]$team1, s_results[i,]$team2)
+  S2winner <- ifelse(as.numeric(s_results[i+n,]$mov)>0, s_results[i+n,]$team1, s_results[i+n,]$team2)
   
   f_results[i,] <- c(i,Get_Game_result(MOV, S1winner, S2winner), "F 1")
   
-  if(i %% 100==0)   cat(i, "\n")
+  if(i %% 100==0)  { 
+	cat(i, "\n")
+	save(results, pq_results, q_results, s_results, f_results, file="MensSimPart.Rdata")
+	}
+
 }
 
 braket_results <- bind_rows(pq_results,q_results,s_results,f_results)
@@ -182,7 +186,6 @@ bracket_summary <- braket_results %>%
 bracket_summary %>%
   ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
 
-bracket_summary %>% spread(round, times) %>% 
-  mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
+bracket_summary %>% spread(round, times, fill=0) 
 
 save(results, braket_results, bracket_summary, file="MensSim.Rdata")

@@ -2,7 +2,9 @@
 title: "Simulation Summary"
 author: "Matt Rissler"
 date: "October 6, 2017"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -19,6 +21,7 @@ load("WomenNationalsMOVs.Rdata")
 
 load("WomenSim.Rdata")
 n<-nrow(results)/16
+n
 ```
 
 ```{r displayPoolsWomen}
@@ -44,7 +47,7 @@ results %>%
 bracket_summary %>%
   ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
 
-bracket_summary %>% spread(round, times) %>% 
+bracket_summary %>% spread(round, times, fill=0) %>% 
   mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
 
 ```
@@ -57,6 +60,7 @@ bracket_summary %>% spread(round, times) %>%
 load("MenNationalsMOVs.Rdata")
 load("MensSim.Rdata")
 n<-nrow(results)/16
+n
 ```
 
 ```{r displayPoolsMen}
@@ -82,7 +86,7 @@ results %>%
 bracket_summary %>%
   ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
 
-bracket_summary %>% spread(round, times) %>% 
+bracket_summary %>% spread(round, times, fill=0) %>% 
   mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
 
 ```
@@ -95,6 +99,7 @@ bracket_summary %>% spread(round, times) %>%
 load("MixedNationalsMOVs.Rdata")
 load("MixedSim.Rdata")
 n<-nrow(results)/16
+n
 ```
 
 ```{r displayPoolsMixed}
@@ -113,14 +118,29 @@ results %>%
   group_by(team,  pool_name,pool_place) %>%
   summarise(count=n()) %>%
   ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
-  labs(x="Place", y="Proportion times", fill="Team")
+  labs(x="Place", y="Proportion times", fill="Team")+ scale_fill_manual(values = colorspace::diverge_hcl(16))
 ```
 
 ```{r displayBracketMixed}
-bracket_summary %>%
-  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
+bracket_summary <- braket_results %>% 
+  mutate(round=parse_factor(round, c("PQ", "Q", "S", "F", "C")),
+         team=parse_factor(team, levels=rownames(MOV))) %>%
+  group_by(round, team) %>%
+  summarize(times=n()/n) 
 
-bracket_summary %>% spread(round, times) %>% 
+bracket_summary <- braket_results %>% 
+  group_by(round, team, mov>0) %>%
+  summarize(times=n()/n) %>% rename(win=`mov > 0`) %>% 
+  filter(round=="F", win) %>% ungroup() %>% 
+  mutate(round = "C", 
+         round=parse_factor(round, c("PQ", "Q", "S", "F", "C")),
+         team=parse_factor(team, levels=rownames(MOV))) %>% select(-win) %>%
+  bind_rows(bracket_summary) 
+
+bracket_summary %>%
+  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") + scale_fill_manual(values = colorspace::diverge_hcl(16))
+
+bracket_summary %>% spread(round, times, fill=0) %>% 
   mutate( PQ=8*PQ/sum(PQ), Q=8*Q/sum(Q), S=4*S/sum(S), F=2*F/sum(F), C=C/sum(C)) %>% knitr::kable()
 
 ```
