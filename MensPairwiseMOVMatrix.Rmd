@@ -9,7 +9,7 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("AllMenScores2017 10 03.Rdata")
+load("AllMenScores2017 10 20.Rdata")
 source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
@@ -145,7 +145,7 @@ rankedteams   %>%
   filter(Index %in% indices) %>%
   arrange( Index) %>% 
   arrange( order(indices)) %>%
-  mutate(Seed = row_number()) %>% 
+  mutate(Seed = row_number()) %>%  
   select(Seed, Team, Ranking, Rating, Wins, Losses )  %>% knitr::kable()
 ```
 ```{r}
@@ -168,8 +168,8 @@ for( i in 1:(length(indices)-1)){
 ```{r }
 rownames(MOV) <-teams$Team[indices]
 colnames(MOV) <-teams$Team[indices]
-print(xtable::xtable(MOV), type="html")
-#MOV
+#print(xtable::xtable(MOV), type="html")
+MOV
 
 ```
 

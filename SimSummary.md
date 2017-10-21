@@ -248,7 +248,7 @@ results %>%
   group_by(team,  pool_name,pool_place) %>%
   summarise(count=n()) %>%
   ggplot(aes(fill= parse_factor(team, rownames(MOV)), x= pool_place, y=count/n))+geom_col(  ) + facet_wrap(~pool_name)+
-  labs(x="Place", y="Proportion times", fill="Team")
+  labs(x="Place", y="Proportion times", fill="Team")+ scale_fill_manual(values = colorspace::diverge_hcl(16))
 ```
 
 ![](SimSummary_files/figure-html/displayPoolsMixed-1.png)<!-- -->
@@ -271,7 +271,7 @@ bracket_summary <- braket_results %>%
   bind_rows(bracket_summary) 
 
 bracket_summary %>%
-  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") +scale_fill_discrete()
+  ggplot(aes(x=round, fill=team, y=times))+geom_col(position = "fill") + scale_fill_manual(values = colorspace::diverge_hcl(16))
 ```
 
 ![](SimSummary_files/figure-html/displayBracketMixed-1.png)<!-- -->

@@ -9,7 +9,7 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("AllMixedScores2017 10 03.Rdata")
+load("AllMixedScores2017 10 20.Rdata")
 source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
@@ -102,17 +102,20 @@ rankedteams <-arrange(rankedteams, desc(Rating))
 rankedteams   %>% 
   filter(`Competition Level` == "Club") %>% 
   mutate(Ranking=min_rank(desc(Rating)))%>%
-  filter(Index %in% indices) %>%
-  arrange( Index) %>% 
-  arrange( order(indices)) %>%
-  mutate(Seed = row_number()) %>% 
-  select(Seed, Team, Ranking, Rating, Wins, Losses)  %>% knitr::kable()
+#  filter(Index %in% indices) %>%
+#  arrange( Index) %>% 
+#  arrange( order(indices)) %>%
+#  mutate(Seed = row_number()) %>% 
+  select( Index, Team, Ranking, Rating, Wins, Losses)  %>% knitr::kable()
 #rankedteams  %>% filter(`Competition Level` == "Club") %>% select(Team, Index, Rating, Wins, Losses) %>% .$Index
 ```
 
 ```{r}
 bids <- 1
-indices <- c(381, 20, 123, 393, 40, 484, 49, 276, 412, 386, 458, 309, 354, 266, 241, 306 )
+indices <- c(393, 21, 129, 407,
+             41, 503, 50, 288,
+             426, 398, 474, 321,
+             366, 279, 254, 318 )
 
 #indices <- c(48,155,,,,,54,,,,,140,181,293,132,,)
 e <- b
@@ -159,8 +162,8 @@ for( i in 1:(length(indices)-1)){
 ```{r }
 rownames(MOV) <-teams$Team[indices]
 colnames(MOV) <-teams$Team[indices]
-print(xtable::xtable(MOV), type="html")
-#MOV
+#print(xtable::xtable(MOV), type="html")
+MOV
 
 ```
 

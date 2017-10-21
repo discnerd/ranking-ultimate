@@ -89,10 +89,10 @@ rD <- rsDriver()
 ## 
 ## $chrome
 ## $chrome$chromedriverVersion
-## [1] "2.32.498550 (9dec58e66c31bcc53a9ce3c7226f0c1c5810906a)"
+## [1] "2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f)"
 ## 
 ## $chrome$userDataDir
-## [1] "C:\\Users\\mr437799\\AppData\\Local\\Temp\\scoped_dir5652_22288"
+## [1] "C:\\Users\\mr437799\\AppData\\Local\\Temp\\scoped_dir2428_21816"
 ## 
 ## 
 ## $takesHeapSnapshot
@@ -150,7 +150,7 @@ rD <- rsDriver()
 ## [1] ""
 ## 
 ## $id
-## [1] "d25f81e0aec6ef15cf4e40d098121911"
+## [1] "3db964f8e90e029eef9c26ff63c842bb"
 ```
 
 ```r
@@ -168,6 +168,14 @@ library(tidyverse)
 ## Loading tidyverse: readr
 ## Loading tidyverse: purrr
 ## Loading tidyverse: dplyr
+```
+
+```
+## Warning: package 'tidyr' was built under R version 3.4.2
+```
+
+```
+## Warning: package 'dplyr' was built under R version 3.4.2
 ```
 
 ```
@@ -411,7 +419,7 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
-## Warning: Too few values at 1 locations: 15
+## Warning: Too few values at 1 locations: 14
 ```
 
 ```
@@ -477,6 +485,10 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 1 locations: 25
+```
+
+```
 ## Warning: Too few values at 1 locations: 8
 ```
 
@@ -491,7 +503,7 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
-## Warning: Too few values at 26 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+## Warning: Too few values at 29 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
 ## 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
 ```
 
@@ -519,6 +531,10 @@ for( i in 1:length(teams$Team)){
 ## Warning: Too few values at 1 locations: 6
 
 ## Warning: Too few values at 1 locations: 6
+```
+
+```
+## Warning: Too few values at 1 locations: 36
 ```
 
 ```
@@ -718,6 +734,16 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
+## coercion
+```
+
+```
+## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
+## by coercion
+```
+
+```
 ## Warning: Too few values at 2 locations: 1, 4
 ```
 
@@ -746,6 +772,10 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 1 locations: 6
+```
+
+```
 ## Warning: Too few values at 2 locations: 1, 4
 ```
 
@@ -771,6 +801,14 @@ for( i in 1:length(teams$Team)){
 ```
 ## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
 ## by coercion
+```
+
+```
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
 ```
 
 ```
@@ -852,6 +890,16 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
+## coercion
+```
+
+```
+## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
+## by coercion
+```
+
+```
 ## Warning: Too few values at 1 locations: 23
 ```
 
@@ -912,7 +960,7 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
-## Warning: Too few values at 26 locations: 8, 9, 10, 11, 12, 13, 14, 15, 16,
+## Warning: Too few values at 29 locations: 8, 9, 10, 11, 12, 13, 14, 15, 16,
 ## 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, ...
 ```
 
@@ -1007,11 +1055,31 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
+## coercion
+```
+
+```
+## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
+## by coercion
+```
+
+```
 ## Warning: Too few values at 2 locations: 5, 31
 ```
 
 ```
 ## Warning: Too few values at 1 locations: 19
+```
+
+```
+## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
+## coercion
+```
+
+```
+## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
+## by coercion
 ```
 
 ```
@@ -1139,6 +1207,18 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 3 locations: 7, 8, 9
+```
+
+```
+## Warning: Too few values at 3 locations: 14, 15, 16
+```
+
+```
+## Warning: Too few values at 3 locations: 7, 8, 9
+```
+
+```
 ## Warning: Too few values at 3 locations: 1, 2, 3
 ```
 
@@ -1171,6 +1251,14 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+```
+
+```
 ## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
 ## coercion
 ```
@@ -1192,6 +1280,10 @@ for( i in 1:length(teams$Team)){
 ```
 ## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
 ## by coercion
+```
+
+```
+## Warning: Too few values at 2 locations: 32, 33
 ```
 
 ```
@@ -1279,13 +1371,7 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
-## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
-## coercion
-```
-
-```
-## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
-## by coercion
+## Warning: Too few values at 1 locations: 33
 ```
 
 ```
@@ -1400,6 +1486,10 @@ for( i in 1:length(teams$Team)){
 ```
 ## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
 ## by coercion
+```
+
+```
+## Warning: Too few values at 1 locations: 33
 ```
 
 ```
@@ -1655,6 +1745,10 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 1 locations: 29
+```
+
+```
 ## Warning: Too many values at 1 locations: 23
 ```
 
@@ -1686,6 +1780,16 @@ for( i in 1:length(teams$Team)){
 ```
 ## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
 ## by coercion
+```
+
+```
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+```
+
+```
+## Warning: Too few values at 1 locations: 39
 ```
 
 ```
@@ -1819,6 +1923,16 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning in ifelse(For == "L", 0, as.numeric(For)): NAs introduced by
+## coercion
+```
+
+```
+## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
+## by coercion
+```
+
+```
 ## Warning: Too few values at 26 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
 ## 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
 ```
@@ -1865,6 +1979,10 @@ for( i in 1:length(teams$Team)){
 ```
 ## Warning in ifelse(Against == "L", 0, as.numeric(Against)): NAs introduced
 ## by coercion
+```
+
+```
+## Warning: Too few values at 3 locations: 7, 8, 9
 ```
 
 ```
@@ -1978,6 +2096,14 @@ for( i in 1:length(teams$Team)){
 ```
 
 ```
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+
+## Warning: Too few values at 3 locations: 7, 8, 9
+```
+
+```
 ## Warning: Too few values at 1 locations: 8
 ```
 
@@ -2063,8 +2189,8 @@ gc(rD)
 
 ```
 ##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells  922666 49.3    1442291 77.1  1442291 77.1
-## Vcells 1319922 10.1    2552219 19.5  2368599 18.1
+## Ncells  923334 49.4    1442291 77.1  1442291 77.1
+## Vcells 1321688 10.1    2552219 19.5  2359075 18.0
 ```
 
 ```r
@@ -2144,8 +2270,8 @@ which(rowSums(A)==0)
 ```
 
 ```
-##  [1]  27  30  77  94 121 125 134 143 192 204 207 212 216 227 246 273 305
-## [18] 351 352 360 398 399 404 413
+##  [1]  28  31  78 127 131 140 149 200 212 215 221 226 237 242 259 317 363
+## [18] 364 372 412 413 418 427
 ```
 
 
@@ -2191,287 +2317,292 @@ rankedteams %>% filter(`Competition Level`== "Club") %>% mutate(Rank=dense_rank(
 
 
 
- Rank  Team                                                     Wins   Losses       Rating  City                        State        
------  ------------------------------------------------------  -----  -------  -----------  --------------------------  -------------
-    1  Seattle Mixtape                                            20        3   24.1453675  Seattle                     WA           
-    2  Slow White                                                 28        6   20.5613318  Boston                      MA           
-    3  Wild Card                                                  36        3   19.6965736  Boston                      MA           
-    4  AMP                                                        17        3   16.9915272  Philadelphia                PA           
-    5  BFG                                                        23        7   15.5815861  Seattle                     WA           
-    6  Drag'n Thrust                                              19        7   12.2676749  Minneapolis                 MN           
-    7  Blackbird                                                  21        9    8.4320059  San Francisco               CA           
-    8  Steamboat                                                  21       10    8.1535017  Cincinnati                  OH           
-    9  Toro                                                       29        3    7.8382301  Durham                      NC           
-   10  Mischief                                                   17        9    7.3213920  San Francisco Bay Area      CA           
-   11  shame.                                                     21        6    6.6768692  Fort Collins                CO           
-   12  NOISE                                                      16       10    6.5548514  Madison                     WI           
-   13  Metro North                                                17       10    5.1389086  Mianus                      CT           
-   14  XIST                                                       25        7    5.0386599  New York                    NY           
-   15  The Chad Larson Experience                                 17       14    4.6897778  Ames                        IA           
-   16  Public Enemy                                               14        8    3.9994732  Dallas/Fort Worth           TX           
-   17  Love Tractor                                               17        8    3.8787476  Denver                      CO           
-   18  Polar Bears                                                19        8    3.7438320  Berkeley                    CA           
-   19  Ambiguous Grey                                             16        8    3.5343066  Washington                  DC           
-   20  Alloy                                                      11        8    3.4488973  Pittsburgh                  PA           
-   21  7 Figures                                                  22        5    3.1454884  Los Angeles                 CA           
-   22  UPA                                                        18        7    3.0070413  Chicago                     IL           
-   23  Birdfruit                                                  22        6    2.9468743  Seattle                     WA           
-   24  BoyShe                                                     25       11    2.9357033  Boise                       ID           
-   25  G-Unit                                                     15       10    2.6865944  Gainesville                 FL           
-   26  UNION                                                      13       11    2.4866350  Toronto                     Ontario      
-   27  Distelfink                                                 23        6    2.3168043  Lancaster                   PA           
-   28  Columbus Cocktails                                         29        6    2.1312309  Columbus                    OH           
-   29  Bang!                                                      17       10    2.1010878  West Chester                PA           
-   30  Dub Club                                                   19       11    2.0652717  West Chester                PA           
-   31  Charlotte Storm                                            23        7    1.9596874  Charlotte                   NC           
-   32  Bozos                                                      17       10    1.9410001  Bozeman                     MT           
-   33  BW Ultimate                                                21       14    1.8277634  Sunnyvale                   CA           
-   34  No Touching!                                               10       10    1.7772450  Twin Cities                 MN           
-   35  Bucket                                                     20        3    1.7668041  Atlanta                     GA           
-   36  Snake Country Bromance                                      5        1    1.7205938  SOMERVILLE                  MA           
-   37  Cosa Nostra                                                15       13    1.6482625  Austin                      TX           
-   38  Minnesota Star Power                                       27        7    1.6047894  Minneapolis/ St. Paul       MN           
-   39  Classy                                                     18       10    1.2988391  San Francisco               CA           
-   40  Swing State                                                25       14    1.2980630  Orlando                     FL           
-   41  Sparkle Ponies                                             15       12    1.2655970  Rockville                   MD           
-   42  The Feminists                                              19       15    1.2636310  New York                    NY           
-   43  Battleship                                                 13        8    1.2102987  St-Jean-sur-Richelieu       Quebec       
-   44  Freakshow                                                   2        0    1.1666667  Newark                      DE           
-   45  SHINSHU LOOSE-Upper                                         2        5    1.0989462  Matsumoto                   Nagano       
-   46  Happy Hour                                                 15        2    1.0956647  McMinnville                 OR           
-   47  Happy Valley                                               13       11    1.0743063  Amherst                     MA           
-   48  Jughandle                                                  19       10    1.0425132  Princeton                   NJ           
-   49  Garbage Plates                                             20       10    1.0399776  Rochester                   NY           
-   50  Bird                                                       21       14    1.0089294  Minneapolis                 MN           
-   51  Donuts                                                     17       11    1.0085961  Bay Area                    CA           
-   52  American Barbecue                                          14        7    0.9618315  San Francisco               CA           
-   53  Tequila Mockingbird                                        25       10    0.9384828  Chicago-apolis              IN           
-   54  Pegasus                                                    12       12    0.9373448  Seattle                     WA           
-   55  Thoroughbred                                               14       13    0.8602068  Saint Louis                 MO           
-   56  Geekshow                                                    0        2    0.8333333  Newark                      DE           
-   57  Mojo Jojo                                                  26       12    0.8210879  Minneapolis                 MN           
-   58  JLP                                                        20        8    0.8149317  Atlanta                     GA           
-   59  Sellout                                                    17        5    0.8147290  Austin/Houston/Dallas       TX           
-   60  Heartless                                                  21       11    0.7926532  Burlington                  VT           
-   61  Alchemy                                                    23       10    0.7862308  San Francisco               CA           
-   62  Grand Army                                                 16       17    0.7550860  Brooklyn                    NY           
-   63  League of Shadows                                          21       17    0.7516593  Boston                      MA           
-   64  Darkwing                                                   18       13    0.7208932  Mansfield                   MA           
-   65  The Administrators                                         18        4    0.6916112  Willamette Valley           OR           
-   66  Chalice                                                    13       12    0.6563186  St. Louis                   MO           
-   67  Titan NE                                                   17       15    0.6475447  Bar Harbor                  ME           
-   68  Cahoots                                                    23       10    0.6371848  Asheville                   NC           
-   69  PleasureTown                                               13       18    0.6165361  Boston                      MA           
-   70  Alternative Stacks                                         19       17    0.5852551  Fairfield                   CT           
-   71  Team Mexico                                                 1        6    0.5795279  Ciudad de Mexico            Mex          
-   72  Townies                                                    19       11    0.5720665  Ithaca                      NY           
-   73  Mesteño                                                    16       12    0.5708977  Denver                      CO           
-   74  HAOS                                                       18       12    0.5606635  Watertown                   MA           
-   75  Murmur                                                     25       11    0.5541005  Athens                      GA           
-   76  Anchor                                                      6        2    0.5528777  Halifax                     Nova Scotia  
-   77  Ant Madness                                                24       13    0.5460651  Arlington                   VA           
-   78  Powermove                                                  13       13    0.5434309  New York                    NY           
-   79  tHUMP                                                      21        9    0.5426852  Houston                     TX           
-   80  Method                                                     24        9    0.5002733  Huntsville                  AL           
-   81  Clue                                                       12        9    0.4959261  Philadelphia                PA           
-   82  Risky Business                                             20       12    0.4674004  Dallas                      TX           
-   83  Malice in Wonderland                                       19        9    0.4572979  Raleigh                     NC           
-   84  Northern Comfort                                           22       16    0.4493329  Milwaukee                   WI           
-   85  Family Style                                               14       10    0.4468988  Los Angeles                 CA           
-   86  Platypi                                                    11       10    0.4413065  Chico                       CA           
-   87  Sunken Circus                                              17       14    0.4282296  Portland                    ME           
-   88  Moontower                                                  14       16    0.4204086  Austin                      TX           
-   89  Cutthroat                                                  17       14    0.4157306  Reno                        NV           
-   90  Shakedown                                                  18       11    0.4048457  Chicago                     IL           
-   91  Rainbow                                                    20       13    0.4014024  Somerville                  MA           
-   92  Long Beach Legacy                                          13        9    0.3945061  Long Beach                  CA           
-   93  Hybrid                                                     23        8    0.3848647  Ann Arbor                   MI           
-   94  Buffalo Lake Effect                                        19       10    0.3764011  Buffalo                     NY           
-   95  Argo                                                       11       17    0.3613030  San Francisco               CA           
-   96  Mixed Nuts                                                 11       20    0.3517029  Boston                      MA           
-   97  Toast                                                      17       11    0.3500524  Grand Rapids                MI           
-   98  Rubix                                                      12        8    0.3481683  Phoenix                     AZ           
-   99  Firefly                                                    16       18    0.3286927  San Francisco               CA           
-  100  Prion                                                      18       11    0.3251840  Champaign-Urbana            IL           
-  101  Sweet Action                                               14       19    0.3241209  Denver                      CO           
-  102  8 Bit Heroes                                               18       10    0.3136365  Frederick                   MD           
-  103  Providence Mob                                             13       17    0.3008588  Providence                  RI           
-  104  RUT                                                        12       13    0.2814834  Burlington                  VT           
-  105  Albany Airbenders                                          11       19    0.2812435  Albany                      NY           
-  106  Fireball                                                    8        5    0.2674428  Rockville                   MD           
-  107  Crash                                                       5       18    0.2665569  Kitchener-Waterloo-Guelph   Ontario      
-  108  Goose Lee                                                  18       10    0.2638794  Cincinnati                  OH           
-  109  #Birdz                                                     13        8    0.2589746  Long Island                 NY           
-  110  Crucible                                                   17       12    0.2439388  Pittsburgh                  PA           
-  111  American Hyperbole                                         15       18    0.2422446  Baltimore                   MD           
-  112  Fear and Loathing                                          11       13    0.2301861  Las Vegas                   NV           
-  113  Unlimited Swipes                                           13       15    0.2246030  New York                    NY           
-  114  Enough Monkeys                                              7       10    0.2219313  Hartford                    VT           
-  115  VIP Club                                                    6        7    0.2072127  Quebec                      QC           
-  116  AC Bandits                                                 17        9    0.1979442  Oakland                     CA           
-  117  Lovebomb                                                    4        4    0.1952404  Ben Avon                    PA           
-  118  Buckwild                                                    5        9    0.1862859  Sacramento                  CA           
-  119  Mutiny                                                     18       14    0.1816381  St. Petersburg              FL           
-  120  Sir Walter Rowdy                                           13        7    0.1754767  Raleigh                     NC           
-  121  panIC                                                      11       14    0.1749556  Iowa City                   IA           
-  122  Asylum                                                     14       15    0.1695819  Athens                      OH           
-  123  LoveShack                                                  17       14    0.1639883  Atlanta                     GA           
-  124  Mad Udderburn                                              17       19    0.1612910  Madison                     WI           
-  125  Sabotage                                                    9       12    0.1593572  Philadelphia                PA           
-  126  Blitzkrieg                                                  8       14    0.1563798  Kansas City                 MO           
-  127  TAU                                                        10        4    0.1561787  Winston Salem               NC           
-  128  The Bandits                                                11       10    0.1555433  Montclair                   NJ           
-  129  Tex Mix                                                    12       17    0.1550263  Dallas                      TX           
-  130  Scarecrow                                                  12       21    0.1547863  Manchester                  NH           
-  131  Friday Night Couch                                         12       13    0.1533277  Seattle                     WA           
-  132  Freetail                                                   12       12    0.1487916  San Antonio                 TX           
-  133  Instant Karma                                              11        9    0.1480872  Tucson                      AZ           
-  134  Tyrannis                                                   14       16    0.1452974  Charlottesville             VA           
-  135  Lawn Patrol                                                 6       10    0.1447201  San Jose                    CA           
-  136  Garbage                                                     4        8    0.1446335  Seattle                     WA           
-  137  Fable                                                       6       11    0.1434268  Vancouver                   BC           
-  138  Impact                                                     11        9    0.1398465  Wichita                     KS           
-  139  Mental Toss Flycoons                                        6        9    0.1385229  Missoula                    MT           
-  140  Trash Pandas                                               12       15    0.1315302  Nashville                   TN           
-  141  Misfits                                                     5        6    0.1245434  Spokane                     WA           
-  142  Legion                                                     14       13    0.1234847  Lynchburg                   VA           
-  143  The Hucking Dead                                           16       19    0.1212001  Jacksonville                FL           
-  144  LORD                                                       15       18    0.1194246  Fairfax                     VA           
-  145  DTH                                                         9        9    0.1163486  Cambridge                   MA           
-  146  Chef Curry with the Pot                                     7        7    0.1149058  Arlington                   VA           
-  147  Superstition                                               11       18    0.1143897  Phoenix                     AZ           
-  148  Coalition Ultimate                                         12       10    0.1118501  Minneapolis                 MN           
-  149  Dead Reckoning                                              7       10    0.1063882  Portland                    ME           
-  150  Los  Heros                                                 16       21    0.1048378  Bloomington                 IN           
-  151  Crush                                                       9       10    0.1038888  Knoxville                   TN           
-  152  Blowing Heat 2.0                                            7        7    0.1007138  New Castle                  DE           
-  153  Free Ride                                                  10       12    0.0988782  Columbia                    MO           
-  154  Makeshift Returns                                           5        1    0.0976591  Portland                    OR           
-  155  rubber duck ultimate.                                      10        6    0.0975814  Fayetteville                AR           
-  156  Dixon Melons                                                2        3    0.0957150  Missoula                    MT           
-  157  Petey's Pirates                                            18       14    0.0957002  Columbus                    OH           
-  158  Boomtown                                                   10        8    0.0940591  Tulsa                       OK           
-  159  Possum                                                      9        6    0.0796472  Greenville                  SC           
-  160  Rat City                                                    5       16    0.0785567  Baltimore                   MD           
-  161  North Coast Disc Co.                                       13       16    0.0773203  Cleveland                   OH           
-  162  Mimosas                                                     7       17    0.0766867  Berkeley                    CA           
-  163  Varsity                                                     7       10    0.0738006  New York                    NY           
-  164  Moonshine                                                  10       19    0.0726465  Lexington                   KY           
-  165  Nautilus                                                    6        7    0.0697351  Farmington                  CT           
-  166  Memphis Hustle & Flow                                       9        7    0.0681190  Memphis                     TN           
-  167  ELevate                                                    13       21    0.0676626  Chicago                     IL           
-  168  Springs Mixed Ulty Team (SMUT)                             10       10    0.0673028  Colorado Springs            CO           
-  169  Wingdings                                                   7       11    0.0634570  Des Moines                  IA           
-  170  Robot                                                       6        6    0.0624725  Santa Barbara               CA           
-  171  Rocket LawnChair                                           13       12    0.0609407  Ann Arbor                   MI           
-  172  All Jeeps, All Night                                        2        8    0.0589349  Boulder                     CO           
-  173  Jabba                                                      15       19    0.0586500  Chicago                     IL           
-  174  Raft Ultimate                                               2        4    0.0582031  Ottawa                      Ontario      
-  175  Midnight Whiskey                                            8        4    0.0572904  Eugene                      OR           
-  176  ¡Fiesta!                                                    6        6    0.0561804  San Diego                   CA           
-  177  Liquid Hustle                                              10       20    0.0552193  Indianapolis                IN           
-  178  Spirit Fowl                                                11       17    0.0535571  Saint Paul                  MN           
-  179  Drunk in Space                                              2        9    0.0523078  Boston                      MA           
-  180  Snail                                                       2        2    0.0519174  Geneseo                     NY           
-  181  Animals                                                     2        5    0.0509315  Sherbrooke                  Québec       
-  182  Mixed Results                                               9       16    0.0506279  Knoxville                   TN           
-  183  MxD                                                         9       13    0.0479602  College Park                MD           
-  184  Big                                                         2        4    0.0454561  Anchorage                   AK           
-  185  Wildstyle                                                  10       11    0.0451571  Austin                      TX           
-  186  NEKUD                                                       4        7    0.0445802  Burke                       VT           
-  187  Mastodon                                                    8       12    0.0431966  Madison                     WI           
-  188  Stormborn                                                   7       19    0.0421914  Washington                  DC           
-  189  Spawn                                                       2        3    0.0416980  Fredericton                 NB           
-  190  Merry Band of Muffin Makers from the Land of Megastar       3        3    0.0406133  Denver                      CO           
-  191  The Strangers                                               8       14    0.0395784  Westminster                 CO           
-  192  Stackcats                                                   9       20    0.0376133  Chicago                     IL           
-  193  Local 613                                                   4        3    0.0373528  Kingston                    ON           
-  194  Absolute Zero                                               8       12    0.0373198  Santa Clara                 CA           
-  195  Bitmap                                                      5       17    0.0342685  Philadelphia                PA           
-  196  OMBU                                                        4        5    0.0341275  Portland                    OR           
-  197  Baywatch                                                    7       15    0.0334112  Pensacola                   FL           
-  198  Dumpster Fire                                               4       10    0.0305134  North Charleston            SC           
-  199  Dream Team Frisbee                                          3        4    0.0302859  Columbia                    SC           
-  200  Boomtown Pandas                                             6       22    0.0291843  Madison                     WI           
-  201  Swing                                                       4       12    0.0277809  San Diego                   CA           
-  202  Quest                                                       2        6    0.0274100  Québec                      Québec       
-  203  Heavy Flow                                                  6       19    0.0258147  Columbia                    MD           
-  204  District Cocktails                                          6       14    0.0257822  Washington                  DC           
-  205  Doppler Effect                                             10       19    0.0252982  Detroit                     MI           
-  206  Mississippi Blues                                           7       10    0.0251221  Jackson                     MS           
-  207  BRUH                                                        4       10    0.0244190  Clemson                     SC           
-  208  Igneous Ultimate                                            3       14    0.0240880  Bend                        OR           
-  209  DR                                                          3       15    0.0238242  Berkeley                    CA           
-  210  Fifth Element                                               6       12    0.0231576  Louisville                  KY           
-  211  Feral Cows                                                  5       13    0.0226923  Palo Alto                   CA           
-  212  Bulleit Train                                               7       17    0.0220118  Seattle                     WA           
-  213  OutKast                                                     6       12    0.0218480  Atlanta                     GA           
-  214  Swipe >                                                     4        3    0.0208143  Fossil Cove                 OK           
-  215  Breakers Mark                                               3        4    0.0201450  Portland                    OR           
-  216  Pink Pear                                                   4        8    0.0192884  NYC                         NY           
-  217  Balloon                                                     4       14    0.0184349  College Station             TX           
-  218  Serial Crusher Theory                                       5        3    0.0183570  Twin Cities                 MN           
-  219  Carolina Reign                                              4       16    0.0176678  Winston-Salem               NC           
-  220  Magic City Mayhem                                           4        7    0.0170650  Birmingham                  AL           
-  221  Mixed on the Rock                                           3        8    0.0166620  Little Rock                 AR           
-  222  Mixed Pi                                                    4        4    0.0157854  Lexington                   KY           
-  223  Glitter Bomb                                                6       14    0.0155694  San Francisco               CA           
-  224  Flicks and Chill                                            3        3    0.0152725  Austin                      TX           
-  225  Bold City                                                   2       10    0.0139610  Jacksonville                FL           
-  226  SOFA Spartans                                               1        4    0.0138843  Oneonta                     NY           
-  227  Swag State                                                  4       12    0.0133374  Orlando                     FL           
-  228  The Tossers                                                 4        2    0.0123506  Austin                      TX           
-  229  Beezer Ultimate                                             1        4    0.0123416  Durham                      NH           
-  230  Turmoil                                                     2        8    0.0123035  Memphis                     TN           
-  231  Oh My!                                                     10       12    0.0117247  Portland                    OR           
-  232  Crop That Top (Davidson)                                    0        7    0.0112645  Davidson                    NC           
-  233  Hairy Otter                                                 2        5    0.0109645  Nashville                   TN           
-  234  Turnstyle                                                   3       16    0.0105522  New York                    NY           
-  235  Get A Baby                                                  2       10    0.0104049  Plymouth                    NH           
-  236  EDM                                                         1       11    0.0103819  Denver                      CO           
-  237  FENOD & Friends                                             1        2    0.0100286  Cambridge                   MA           
-  238  Skyhawks                                                    6       16    0.0097572  South Bend                  IN           
-  239  Mousetrap                                                   6       15    0.0085656  Madison                     WI           
-  240  I-79                                                        6       17    0.0081390  Pittsburgh/Erie             PA           
-  241  FIRE ULTIMATE CLUB                                          0        7    0.0080729  BOGOTA                      CUNDINAMARCA 
-  242  Tlacuaches                                                  4        9    0.0077876  McAllen                     TX           
-  243  7 Express                                                   2        4    0.0072120  New York                    NY           
-  244  Twonies                                                     1        4    0.0069075  Ithaca                      NY           
-  245  ThunderCats                                                 2        5    0.0068674  Charlotte                   NC           
-  246  Friend Zone                                                 2       12    0.0067762  Gainesville                 GA           
-  247  #Beez                                                       4       15    0.0060639  Long Island                 NY           
-  248  Los Penguinos                                               3        9    0.0058672  DC/Baltimore                DC           
-  249  Thunderpants the Magic Dragon                               4       12    0.0055081  Dayton                      OH           
-  250  Flying Circus Disc Club                                     4       12    0.0052846  Portland                    OR           
-  251  CUFAX                                                       1        7    0.0044369  Cranford                    NJ           
-  252  Slam                                                        3        5    0.0038447  Greenville                  SC           
-  253  Taco Truck PNC                                              1        5    0.0033466  Turlock                     CA           
-  254  Rogue                                                       0       11    0.0029820  Tucson                      AZ           
-  255  Mud Turtles                                                 1       13    0.0028938  Houston                     TX           
-  256  Family Julez                                                2        6    0.0025730  Newark                      DE           
-  257  Hot Stix                                                    0       18    0.0021146  San Francisco               CA           
-  258  Pocket City Approach                                        0        6    0.0020487  Evansville                  IN           
-  259  Pandatime                                                   0       11    0.0016963  Towson                      MD           
-  260  The Greatest Team in America                                2       11    0.0013774  Baltimore                   MD           
-  261  Identity Crisis                                             0        6    0.0012222  Boone                       NC           
-  262  CimaSalta-Upper                                             1        3    0.0011511  Jacksonville                FL           
-  263  HORUS ULTIMATE TEAM                                         1        5    0.0010867  MEXICO CITY                 MEXICO CITY  
-  264  Norfolkin' Around                                           0        6    0.0010665  Norfolk                     VA           
-  265  ALTimate Brews                                              3       18    0.0009574  Madison                     WI           
-  266  Flat Earth Club                                             1        5    0.0009047  Washington                  DC           
-  267  Taco Cat                                                    1       12    0.0007244  Chicago                     IL           
-  268  Natural Twenties                                            0        5    0.0007181  Portland                    OR           
-  269  defunct                                                     0        5    0.0004731  Middlebury                  CT           
-  270  Mishigami                                                   1        8    0.0001674  East Lansing                MI           
-  271  Sun Bats                                                    0        5    0.0000823  Austin                      TX           
-  272  Petey's Parrots                                             2       19    0.0000293  Columbus                    OH           
-  273  WOOcestershire Sauce                                        0        4    0.0000005  Wooster                     OH           
-  274  Bro Kittens                                                 0        4    0.0000000  Athens                      OH           
-  274  Choco Ghost House                                           0        4    0.0000000  Portland                    OR           
-  274  Delta Breeze                                                0        7    0.0000000  Sacramento                  CA           
-  274  Missoula Yoursoula                                          0        3    0.0000000  Missoula                    MT           
-  274  MUTT                                                        0        6    0.0000000  Saint Paul                  MN           
-  274  N.A.B.P.S. (Not Awesome But Pretty Solid)                   0        6    0.0000000  Madison                     WI           
+ Rank  Team                                                     Wins   Losses       Rating  City                        State            
+-----  ------------------------------------------------------  -----  -------  -----------  --------------------------  -----------------
+    1  Seattle Mixtape                                            24        3   25.1094660  Seattle                     WA               
+    2  Slow White                                                 32        6   24.2930796  Boston                      MA               
+    3  Wild Card                                                  40        5   22.7442414  Boston                      MA               
+    4  AMP                                                        21        3   18.8768648  Philadelphia                PA               
+    5  BFG                                                        27        8   16.5438864  Seattle                     WA               
+    6  Drag'n Thrust                                              23        9   12.0917500  Minneapolis                 MN               
+    7  Blackbird                                                  25       11    8.5636540  San Francisco               CA               
+    8  shame.                                                     23        9    7.6745777  Fort Collins                CO               
+    9  Toro                                                       31        7    7.0611985  Durham                      NC               
+   10  Steamboat                                                  23       14    7.0577032  Cincinnati                  OH               
+   11  Mischief                                                   19       13    6.9901064  San Francisco Bay Area      CA               
+   12  Public Enemy                                               17       11    6.6137600  Dallas/Fort Worth           TX               
+   13  Metro North                                                19       14    6.0679501  Mianus                      CT               
+   14  NOISE                                                      17       15    5.9287422  Madison                     WI               
+   15  Love Tractor                                               17       14    4.8618807  Denver                      CO               
+   16  XIST                                                       25        7    4.8204781  New York                    NY               
+   17  The Chad Larson Experience                                 17       14    4.3337587  Ames                        IA               
+   18  Alloy                                                      11        8    3.2917314  Pittsburgh                  PA               
+   19  Ambiguous Grey                                             16        8    3.2773409  Washington                  DC               
+   20  Polar Bears                                                19        8    3.2497009  Berkeley                    CA               
+   21  7 Figures                                                  22        5    2.7244038  Los Angeles                 CA               
+   22  UPA                                                        18        7    2.7114219  Chicago                     IL               
+   23  G-Unit                                                     15       10    2.6819072  Gainesville                 FL               
+   24  Birdfruit                                                  22        6    2.6487015  Seattle                     WA               
+   25  BoyShe                                                     25       11    2.6376630  Boise                       ID               
+   26  No Touching!                                               12       14    2.5173167  Twin Cities                 MN               
+   27  UNION                                                      13       11    2.4605298  Toronto                     Ontario          
+   28  Distelfink                                                 23        6    2.1589879  Lancaster                   PA               
+   29  Bang!                                                      17       10    1.9563775  West Chester                PA               
+   30  Dub Club                                                   19       11    1.8582940  West Chester                PA               
+   31  Columbus Cocktails                                         29        6    1.8246844  Columbus                    OH               
+   32  Bozos                                                      17       10    1.7683051  Bozeman                     MT               
+   33  Snake Country Bromance                                      5        1    1.7660226  SOMERVILLE                  MA               
+   34  Charlotte Storm                                            23        7    1.7137245  Charlotte                   NC               
+   35  BW Ultimate                                                21       14    1.6438867  Sunnyvale                   CA               
+   36  Bucket                                                     20        3    1.5975626  Atlanta                     GA               
+   37  Cosa Nostra                                                15       13    1.5405121  Austin                      TX               
+   38  Minnesota Star Power                                       27        7    1.3951730  Minneapolis/ St. Paul       MN               
+   39  The Feminists                                              19       15    1.2294529  New York                    NY               
+   40  Battleship                                                 13        8    1.1991711  St-Jean-sur-Richelieu       Quebec           
+   41  Sparkle Ponies                                             15       12    1.1858048  Rockville                   MD               
+   42  Freakshow                                                   2        0    1.1666667  Newark                      DE               
+   43  Swing State                                                25       14    1.1651355  Orlando                     FL               
+   44  Classy                                                     18       10    1.1539898  San Francisco               CA               
+   45  Happy Valley                                               13       11    1.0438256  Amherst                     MA               
+   46  Garbage Plates                                             20       10    1.0121062  Rochester                   NY               
+   47  Happy Hour                                                 15        2    0.9811173  McMinnville                 OR               
+   48  SHINSHU LOOSE-Upper                                         2        5    0.9779316  Matsumoto                   Nagano           
+   49  Jughandle                                                  19       10    0.9741203  Princeton                   NJ               
+   50  Bird                                                       21       14    0.8956734  Minneapolis                 MN               
+   51  Donuts                                                     17       11    0.8846426  Bay Area                    CA               
+   52  Pegasus                                                    12       12    0.8459795  Seattle                     WA               
+   53  American Barbecue                                          14        7    0.8389544  San Francisco               CA               
+   54  Tequila Mockingbird                                        25       10    0.8346225  Chicago-apolis              IN               
+   55  Geekshow                                                    0        2    0.8333333  Newark                      DE               
+   56  Sellout                                                    17        5    0.7893382  Austin/Houston/Dallas       TX               
+   57  Heartless                                                  21       11    0.7718835  Burlington                  VT               
+   58  JLP                                                        20        8    0.7359223  Atlanta                     GA               
+   59  Thoroughbred                                               14       13    0.7320128  Saint Louis                 MO               
+   60  League of Shadows                                          21       17    0.7264795  Boston                      MA               
+   61  Grand Army                                                 16       17    0.7220660  Brooklyn                    NY               
+   62  Darkwing                                                   18       13    0.7016194  Mansfield                   MA               
+   63  Alchemy                                                    23       10    0.7006834  San Francisco               CA               
+   64  Mojo Jojo                                                  26       12    0.6609941  Minneapolis                 MN               
+   65  Titan NE                                                   17       15    0.6314532  Bar Harbor                  ME               
+   66  The Administrators                                         18        4    0.6179848  Willamette Valley           OR               
+   67  PleasureTown                                               13       18    0.5967768  Boston                      MA               
+   68  Alternative Stacks                                         19       17    0.5763964  Fairfield                   CT               
+   69  Chalice                                                    13       12    0.5756777  St. Louis                   MO               
+   70  Cahoots                                                    23       10    0.5602778  Asheville                   NC               
+   71  Team Mexico                                                 1        6    0.5550299  Ciudad de Mexico            Mex              
+   72  Townies                                                    19       11    0.5545694  Ithaca                      NY               
+   73  HAOS                                                       18       12    0.5455705  Watertown                   MA               
+   74  Anchor                                                      6        2    0.5435209  Halifax                     Nova Scotia      
+   75  Mesteño                                                    16       12    0.5328391  Denver                      CO               
+   76  Powermove                                                  13       13    0.5208632  New York                    NY               
+   77  Ant Madness                                                24       13    0.5136847  Arlington                   VA               
+   78  Murmur                                                     25       11    0.4947309  Athens                      GA               
+   79  tHUMP                                                      21        9    0.4938753  Houston                     TX               
+   80  Clue                                                       12        9    0.4563227  Philadelphia                PA               
+   81  Method                                                     24        9    0.4457020  Huntsville                  AL               
+   82  Risky Business                                             20       12    0.4282250  Dallas                      TX               
+   83  Sunken Circus                                              17       14    0.4171890  Portland                    ME               
+   84  Northern Comfort                                           22       16    0.4077650  Milwaukee                   WI               
+   85  Malice in Wonderland                                       19        9    0.4009371  Raleigh                     NC               
+   86  Family Style                                               14       10    0.3985215  Los Angeles                 CA               
+   87  Platypi                                                    11       10    0.3923968  Chico                       CA               
+   88  Rainbow                                                    20       13    0.3923915  Somerville                  MA               
+   89  Moontower                                                  14       16    0.3917242  Austin                      TX               
+   90  Cutthroat                                                  17       14    0.3681366  Reno                        NV               
+   91  Buffalo Lake Effect                                        19       10    0.3623018  Buffalo                     NY               
+   92  Shakedown                                                  18       11    0.3546793  Chicago                     IL               
+   93  Long Beach Legacy                                          13        9    0.3504126  Long Beach                  CA               
+   94  Mixed Nuts                                                 11       20    0.3469026  Boston                      MA               
+   95  Hybrid                                                     23        8    0.3386826  Ann Arbor                   MI               
+   96  Rubix                                                      12        8    0.3261827  Phoenix                     AZ               
+   97  Argo                                                       11       17    0.3228982  San Francisco               CA               
+   98  Sweet Action                                               14       19    0.3221599  Denver                      CO               
+   99  Toast                                                      17       11    0.3096972  Grand Rapids                MI               
+  100  Providence Mob                                             13       17    0.2934770  Providence                  RI               
+  101  Firefly                                                    16       18    0.2932453  San Francisco               CA               
+  102  8 Bit Heroes                                               18       10    0.2884952  Frederick                   MD               
+  103  Prion                                                      18       11    0.2884416  Champaign-Urbana            IL               
+  104  RUT                                                        12       13    0.2745317  Burlington                  VT               
+  105  Albany Airbenders                                          11       19    0.2730766  Albany                      NY               
+  106  Homegrown Ultimate                                          5        2    0.2571695  Nelson                      British Columbia 
+  107  Fireball                                                    8        5    0.2493113  Rockville                   MD               
+  108  #Birdz                                                     13        8    0.2482165  Long Island                 NY               
+  109  Crash                                                       5       18    0.2479986  Kitchener-Waterloo-Guelph   Ontario          
+  110  Goose Lee                                                  18       10    0.2317330  Cincinnati                  OH               
+  111  Crucible                                                   17       12    0.2272019  Pittsburgh                  PA               
+  112  American Hyperbole                                         15       18    0.2211034  Baltimore                   MD               
+  113  Unlimited Swipes                                           13       15    0.2182120  New York                    NY               
+  114  Enough Monkeys                                              7       10    0.2160095  Hartford                    VT               
+  115  Fear and Loathing                                          11       13    0.2041648  Las Vegas                   NV               
+  116  VIP Club                                                    6        7    0.2018056  Quebec                      QC               
+  117  Lovebomb                                                    4        4    0.1786468  Ben Avon                    PA               
+  118  AC Bandits                                                 17        9    0.1777300  Oakland                     CA               
+  119  Buckwild                                                    5        9    0.1674892  Sacramento                  CA               
+  120  Dixon Melons                                                6        4    0.1660555  Missoula                    MT               
+  121  Mutiny                                                     18       14    0.1621158  St. Petersburg              FL               
+  122  Sir Walter Rowdy                                           13        7    0.1567180  Raleigh                     NC               
+  123  Thanksgiving                                                4        1    0.1566760  Bozeman                     MT               
+  124  panIC                                                      11       14    0.1531576  Iowa City                   IA               
+  125  Scarecrow                                                  12       21    0.1507985  Manchester                  NH               
+  126  The Bandits                                                11       10    0.1496693  Montclair                   NJ               
+  127  Sabotage                                                    9       12    0.1484761  Philadelphia                PA               
+  128  LoveShack                                                  17       14    0.1465952  Atlanta                     GA               
+  129  Blitzkrieg                                                  8       14    0.1428951  Kansas City                 MO               
+  130  Asylum                                                     14       15    0.1425567  Athens                      OH               
+  131  Tex Mix                                                    12       17    0.1417426  Dallas                      TX               
+  132  Mad Udderburn                                              17       19    0.1414665  Madison                     WI               
+  133  TAU                                                        10        4    0.1408306  Winston Salem               NC               
+  134  Freetail                                                   12       12    0.1376515  San Antonio                 TX               
+  135  Mental Toss Flycoons                                        6       10    0.1364436  Missoula                    MT               
+  136  Instant Karma                                              11        9    0.1358078  Tucson                      AZ               
+  137  Friday Night Couch                                         12       13    0.1353516  Seattle                     WA               
+  138  Tyrannis                                                   14       16    0.1322681  Charlottesville             VA               
+  139  Garbage                                                     4        8    0.1304907  Seattle                     WA               
+  140  Fable                                                       6       11    0.1288244  Vancouver                   BC               
+  141  Lawn Patrol                                                 6       10    0.1287865  San Jose                    CA               
+  142  Impact                                                     11        9    0.1222465  Wichita                     KS               
+  143  Trash Pandas                                               12       15    0.1174789  Nashville                   TN               
+  144  Legion                                                     14       13    0.1135740  Lynchburg                   VA               
+  145  DTH                                                         9        9    0.1131641  Cambridge                   MA               
+  146  Misfits                                                     5        6    0.1119362  Spokane                     WA               
+  147  The Hucking Dead                                           16       19    0.1104141  Jacksonville                FL               
+  148  LORD                                                       15       18    0.1099081  Fairfax                     VA               
+  149  Chef Curry with the Pot                                     7        7    0.1067886  Arlington                   VA               
+  150  Dead Reckoning                                              7       10    0.1036213  Portland                    ME               
+  151  Superstition                                               11       18    0.1010155  Phoenix                     AZ               
+  152  Guns for Hire                                               3        3    0.0973449  Missoula                    MT               
+  153  Coalition Ultimate                                         12       10    0.0955158  Minneapolis                 MN               
+  154  Blowing Heat 2.0                                            7        7    0.0931072  New Castle                  DE               
+  155  Los  Heros                                                 16       21    0.0922719  Bloomington                 IN               
+  156  Crush                                                       9       10    0.0916500  Knoxville                   TN               
+  157  Free Ride                                                  10       12    0.0875381  Columbia                    MO               
+  158  Makeshift Returns                                           5        1    0.0872992  Portland                    OR               
+  159  rubber duck ultimate.                                      10        6    0.0872652  Fayetteville                AR               
+  160  Boomtown                                                   10        8    0.0852791  Tulsa                       OK               
+  161  Petey's Pirates                                            18       14    0.0851433  Columbus                    OH               
+  162  Rat City                                                    5       16    0.0750337  Baltimore                   MD               
+  163  Varsity                                                     7       10    0.0710572  New York                    NY               
+  164  North Coast Disc Co.                                       13       16    0.0702006  Cleveland                   OH               
+  165  Mimosas                                                     7       17    0.0686235  Berkeley                    CA               
+  166  Nautilus                                                    6        7    0.0678736  Farmington                  CT               
+  167  Possum                                                      9        6    0.0661960  Greenville                  SC               
+  168  Moonshine                                                  10       19    0.0643435  Lexington                   KY               
+  169  Springs Mixed Ulty Team (SMUT)                             10       10    0.0641067  Colorado Springs            CO               
+  170  Memphis Hustle & Flow                                       9        7    0.0611643  Memphis                     TN               
+  171  ELevate                                                    13       21    0.0591573  Chicago                     IL               
+  172  Raft Ultimate                                               2        4    0.0569453  Ottawa                      Ontario          
+  173  Wingdings                                                   7       11    0.0556565  Des Moines                  IA               
+  174  Robot                                                       6        6    0.0556062  Santa Barbara               CA               
+  175  All Jeeps, All Night                                        2        8    0.0553549  Boulder                     CO               
+  176  Rocket LawnChair                                           13       12    0.0531709  Ann Arbor                   MI               
+  177  Jabba                                                      15       19    0.0517644  Chicago                     IL               
+  178  Midnight Whiskey                                            8        4    0.0514200  Eugene                      OR               
+  179  Drunk in Space                                              2        9    0.0509471  Boston                      MA               
+  180  ¡Fiesta!                                                    6        6    0.0504941  San Diego                   CA               
+  181  Animals                                                     2        5    0.0502787  Sherbrooke                  Québec           
+  182  Snail                                                       2        2    0.0499727  Geneseo                     NY               
+  183  Liquid Hustle                                              10       20    0.0487650  Indianapolis                IN               
+  184  Spirit Fowl                                                11       17    0.0472670  Saint Paul                  MN               
+  185  MxD                                                         9       13    0.0460252  College Park                MD               
+  186  Mixed Results                                               9       16    0.0452881  Knoxville                   TN               
+  187  NEKUD                                                       4        7    0.0436326  Burke                       VT               
+  188  Wildstyle                                                  10       11    0.0417673  Austin                      TX               
+  189  Big                                                         2        4    0.0406214  Anchorage                   AK               
+  190  Spawn                                                       2        3    0.0405803  Fredericton                 NB               
+  191  Merry Band of Muffin Makers from the Land of Megastar       3        3    0.0395362  Denver                      CO               
+  192  Stormborn                                                   7       19    0.0390485  Washington                  DC               
+  193  Mastodon                                                    8       12    0.0382554  Madison                     WI               
+  194  The Strangers                                               8       14    0.0379842  Westminster                 CO               
+  195  Local 613                                                   4        3    0.0357360  Kingston                    ON               
+  196  Absolute Zero                                               8       12    0.0333214  Santa Clara                 CA               
+  197  Stackcats                                                   9       20    0.0328673  Chicago                     IL               
+  198  Bitmap                                                      5       17    0.0327338  Philadelphia                PA               
+  199  OMBU                                                        4        5    0.0305635  Portland                    OR               
+  200  Baywatch                                                    7       15    0.0299531  Pensacola                   FL               
+  201  Dumpster Fire                                               4       10    0.0272176  North Charleston            SC               
+  202  Dream Team Frisbee                                          3        4    0.0270689  Columbia                    SC               
+  203  Quest                                                       2        6    0.0266846  Québec                      Québec           
+  204  Boomtown Pandas                                             6       22    0.0251007  Madison                     WI               
+  205  Swing                                                       4       12    0.0250094  San Diego                   CA               
+  206  Heavy Flow                                                  6       19    0.0248700  Columbia                    MD               
+  207  District Cocktails                                          6       14    0.0241320  Washington                  DC               
+  208  Mississippi Blues                                           7       10    0.0224585  Jackson                     MS               
+  209  BRUH                                                        4       10    0.0223373  Clemson                     SC               
+  210  Doppler Effect                                             10       19    0.0221291  Detroit                     MI               
+  211  DR                                                          3       15    0.0217994  Berkeley                    CA               
+  212  Igneous Ultimate                                            3       14    0.0215711  Bend                        OR               
+  213  Fifth Element                                               6       12    0.0207619  Louisville                  KY               
+  214  Feral Cows                                                  5       13    0.0203808  Palo Alto                   CA               
+  215  Bulleit Train                                               7       17    0.0196085  Seattle                     WA               
+  216  OutKast                                                     6       12    0.0195341  Atlanta                     GA               
+  217  Swipe >                                                     4        3    0.0188329  Fossil Cove                 OK               
+  218  Pink Pear                                                   4        8    0.0187301  NYC                         NY               
+  219  Breakers Mark                                               3        4    0.0180605  Portland                    OR               
+  220  Balloon                                                     4       14    0.0168237  College Station             TX               
+  221  Serial Crusher Theory                                       5        3    0.0159153  Twin Cities                 MN               
+  222  Carolina Reign                                              4       16    0.0157743  Winston-Salem               NC               
+  223  $Griz Alum$-Upper                                           2        4    0.0157352  Missoula                    MT               
+  224  Magic City Mayhem                                           4        7    0.0152157  Birmingham                  AL               
+  225  Mixed on the Rock                                           3        8    0.0149782  Little Rock                 AR               
+  226  Mixed Pi                                                    4        4    0.0144066  Lexington                   KY               
+  227  Flicks and Chill                                            3        3    0.0140454  Austin                      TX               
+  228  Glitter Bomb                                                6       14    0.0138229  San Francisco               CA               
+  229  SOFA Spartans                                               1        4    0.0134811  Oneonta                     NY               
+  230  Bold City                                                   2       10    0.0125725  Jacksonville                FL               
+  231  Beezer Ultimate                                             1        4    0.0120094  Durham                      NH               
+  232  Swag State                                                  4       12    0.0119501  Orlando                     FL               
+  233  The Tossers                                                 4        2    0.0112942  Austin                      TX               
+  234  Turmoil                                                     2        8    0.0109833  Memphis                     TN               
+  235  Oh My!                                                     10       12    0.0104898  Portland                    OR               
+  236  Turnstyle                                                   3       16    0.0103118  New York                    NY               
+  237  Get A Baby                                                  2       10    0.0101343  Plymouth                    NH               
+  238  Crop That Top (Davidson)                                    0        7    0.0099566  Davidson                    NC               
+  239  Hairy Otter                                                 2        5    0.0098021  Nashville                   TN               
+  240  FENOD & Friends                                             1        2    0.0097826  Cambridge                   MA               
+  241  EDM                                                         1       11    0.0097449  Denver                      CO               
+  242  Skyhawks                                                    6       16    0.0086589  South Bend                  IN               
+  243  I-79                                                        6       17    0.0076551  Pittsburgh/Erie             PA               
+  244  Mousetrap                                                   6       15    0.0074945  Madison                     WI               
+  245  Carroll College (The Fighting Saints)                       0        6    0.0074353  Helena                      MT               
+  246  Tlacuaches                                                  4        9    0.0071439  McAllen                     TX               
+  247  7 Express                                                   2        4    0.0070013  New York                    NY               
+  248  FIRE ULTIMATE CLUB                                          0        7    0.0068378  BOGOTA                      CUNDINAMARCA     
+  249  Twonies                                                     1        4    0.0067069  Ithaca                      NY               
+  250  ThunderCats                                                 2        5    0.0061458  Charlotte                   NC               
+  251  Friend Zone                                                 2       12    0.0060607  Gainesville                 GA               
+  252  #Beez                                                       4       15    0.0058443  Long Island                 NY               
+  253  Los Penguinos                                               3        9    0.0054739  DC/Baltimore                DC               
+  254  Thunderpants the Magic Dragon                               4       12    0.0049420  Dayton                      OH               
+  255  Flying Circus Disc Club                                     4       12    0.0047334  Portland                    OR               
+  256  CUFAX                                                       1        7    0.0041197  Cranford                    NJ               
+  257  Slam                                                        3        5    0.0034848  Greenville                  SC               
+  258  Taco Truck PNC                                              1        5    0.0029824  Turlock                     CA               
+  259  Rogue                                                       0       11    0.0026615  Tucson                      AZ               
+  260  Mud Turtles                                                 1       13    0.0026372  Houston                     TX               
+  261  Family Julez                                                2        6    0.0023914  Newark                      DE               
+  262  Hot Stix                                                    0       18    0.0018987  San Francisco               CA               
+  263  Pocket City Approach                                        0        6    0.0018304  Evansville                  IN               
+  264  Pandatime                                                   0       11    0.0016333  Towson                      MD               
+  265  The Greatest Team in America                                2       11    0.0013185  Baltimore                   MD               
+  266  Identity Crisis                                             0        6    0.0011134  Boone                       NC               
+  267  CimaSalta-Upper                                             1        3    0.0010294  Jacksonville                FL               
+  268  HORUS ULTIMATE TEAM                                         1        5    0.0010051  MEXICO CITY                 MEXICO CITY      
+  269  Norfolkin' Around                                           0        6    0.0009828  Norfolk                     VA               
+  270  ALTimate Brews                                              3       18    0.0008832  Madison                     WI               
+  271  Flat Earth Club                                             1        5    0.0008681  Washington                  DC               
+  272  Taco Cat                                                    1       12    0.0006480  Chicago                     IL               
+  273  Natural Twenties                                            0        5    0.0006431  Portland                    OR               
+  274  defunct                                                     0        5    0.0004556  Middlebury                  CT               
+  275  Mishigami                                                   1        8    0.0001486  East Lansing                MI               
+  276  Sun Bats                                                    0        5    0.0000761  Austin                      TX               
+  277  Petey's Parrots                                             2       19    0.0000269  Columbus                    OH               
+  278  WOOcestershire Sauce                                        0        4    0.0000005  Wooster                     OH               
+  279  Bro Kittens                                                 0        4    0.0000000  Athens                      OH               
+  279  Choco Ghost House                                           0        4    0.0000000  Portland                    OR               
+  279  Delta Breeze                                                0        7    0.0000000  Sacramento                  CA               
+  279  Missoula Yoursoula                                          0        3    0.0000000  Missoula                    MT               
+  279  MUTT                                                        0        6    0.0000000  Saint Paul                  MN               
+  279  N.A.B.P.S. (Not Awesome But Pretty Solid)                   0        6    0.0000000  Madison                     WI               
 
 ```r
 rankedteams %>% filter(`Competition Level`== "Masters") %>% mutate(Rank=dense_rank(desc(Rating))) %>% select(Rank, Team, Wins, Losses, Rating, City, State) %>% knitr::kable()

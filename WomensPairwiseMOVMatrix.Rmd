@@ -9,7 +9,7 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("AllWomenScores2017 10 05.Rdata")
+load("AllWomenScores2017 10 20.Rdata")
 source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
