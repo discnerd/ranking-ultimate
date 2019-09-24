@@ -318,8 +318,8 @@ add.edges(n,
 ```{r plotNetwork}
 net<-ggnetwork(n %s% which( n %v% "rank" < 26), layout="fruchtermanreingold")
 ggplot(net, aes(x = x, y = y, xend = xend, yend = yend))+
-  geom_edges(alpha=0.1)+
-  geom_nodes( aes(color=rating), alpha=0.5 ) +theme_blank()+
+  geom_edges(alpha=0.1, arrow = arrow(length = unit(0.5, "lines"), type = "closed"))+
+  geom_nodes( aes(color=rating), alpha=0.25 ) +theme_blank()+
   scale_color_gradient(low="purple", high="gold")+
   geom_nodelabel_repel(aes(label=vertex.names))
 
