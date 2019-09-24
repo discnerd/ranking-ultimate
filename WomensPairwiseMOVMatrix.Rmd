@@ -9,7 +9,7 @@ output:
 library(tidyverse)
 ```
 ```{r}
-load("AllWomenScores2017 10 20.Rdata")
+load("Data/CollegeWomensScores2018 05 15.Rdata")
 source('C:/Users/mr437799/Dropbox/Current/Data Projects/GitHub/ranking-basketball/MarginPredictionFromCenter.R')
 
 #MOV of 6 is insurmountable
@@ -100,7 +100,7 @@ rankedteams <-arrange(rankedteams, desc(Rating))
 #rankedteams  %>% filter(`Competition Division`=="Division I")%>% select(Team, Index, Rating, Wins, Losses)
 
 rankedteams   %>% 
-  filter(`Competition Level` == "Club") %>% 
+  filter(`Competition Division` == "Division III") %>% 
   mutate(Ranking=min_rank(desc(Rating)))%>%
   #filter(Index %in% indices) %>%
   #arrange( Index) %>% 
@@ -112,10 +112,15 @@ rankedteams   %>%
 
 ```{r}
 bids <- 1
-indices <- c(78, 10, 48, 27,
-             75, 93, 58, 1,
-             54, 31, 64, 80,
-             95, 69, 76, 53)
+indices <- c(305,17,214,191,
+             296,9,239,216,
+             166,135,203,100,
+             59,178,218,50
+             )
+#indices <- c(9, 17,50, 59,
+#             100,135, 166, 178,
+#             191, 203, 214, 218,
+#             216, 239, 296, 305)
 
 #indices <- c(48,155,,,,,54,,,,,140,181,293,132,,)
 e <- b
@@ -140,7 +145,7 @@ e <- b
 # }
 #indices <-sort(indices)
 rankedteams   %>% 
-  filter(`Competition Level` == "Club") %>% 
+  filter(`Competition Division` == "Division III") %>% 
   mutate(Ranking=min_rank(desc(Rating)))%>%
   filter(Index %in% indices) %>%
   arrange( Index) %>% 
@@ -170,7 +175,7 @@ rownames(MOV) <-teams$Team[indices]
 colnames(MOV) <-teams$Team[indices]
 #print(xtable::xtable(MOV), type="html")
 MOV
-
+save(MOV, file = "Data/CollegeWomenMOVs20180515.Rdata")
 ```
 
 ```{r poolA}

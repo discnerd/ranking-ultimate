@@ -98,7 +98,7 @@ scores <-data.frame(Team1=character(), Score1=numeric(),
                     Team2=character(), Score2=numeric(), Date=character())
 
 for( i in 1:length(teams$Team)){
-#  for( i in 305:length(teams$Team)){
+#  for( i in 457:length(teams$Team)){
   Sys.sleep(runif(1, min=1, max=2))
   url <- paste0("http://play.usaultimate.org", teams$Links[i])
   remDr$navigate(url)
@@ -165,7 +165,7 @@ rD[["server"]]$stop()
 gc(rD)
 ```
 ```{r}
-save(scores, teams, file=paste0("MensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
+save(scores, teams, file=paste0("Data/CollegeMensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
 
 ```
 
@@ -238,7 +238,7 @@ teams$Index = 1:length(teams$Team)
 rankedteams<-bind_cols(teams, tibble(Rating=as.numeric(b)))
 rankedteams <-arrange(rankedteams, desc(Rating))
 
-write.csv(rankedteams, paste("USAU College Men RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
+write.csv(rankedteams, paste("Rankings/USAU College Men RW", format(Sys.time(),"%Y %m %d"),".csv",sep=""), row.names = TRUE)
 
 ```
 

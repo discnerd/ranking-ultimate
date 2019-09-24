@@ -10,7 +10,7 @@ output:
 
 ```{r setup}
 library(RSelenium)
-rD <- rsDriver()
+rD <- rsDriver(browser = "chrome", verbose = TRUE, check = FALSE, chromever = "77.0.3865.40")
 remDr <- rD[["client"]]
 ```
 ```{r pullTeams}
@@ -121,6 +121,10 @@ for( i in 1:length(teams$Team)){
     read_html() %>% html_table(fill=TRUE)
   data <- data[[1]]
   names(data) <- c("Date", "Scores", "Opponent")
+  data$Links <- elem$getElementAttribute("outerHTML")[[1]] %>%
+    htmlTreeParse(useInternalNodes=TRUE) %>% 
+    xpathApply("//a", xmlGetAttr, 'href') %>% 
+    unlist %>% grep("Eventteam",., value=TRUE) %>% .[1:length(data$Against)]
   data <- filter(data, Date != Scores)
   data <- data %>% separate(Scores, c("For", "Against"))
   data <- data %>% filter(!is.na(Against) & !is.na(For)) %>% filter(Opponent != "N/A") %>%
@@ -133,10 +137,7 @@ for( i in 1:length(teams$Team)){
                                  ifelse(Against=="L",0,
                                         as.numeric(Against))))
     )
-  data$Links <- elem$getElementAttribute("outerHTML")[[1]] %>%
-    htmlTreeParse(useInternalNodes=TRUE) %>% 
-    xpathApply("//a", xmlGetAttr, 'href') %>% 
-    unlist %>% grep("Eventteam",., value=TRUE) %>% .[1:length(data$Against)]
+
   
   for(j in 1:length(data$Links)){
     oppID = grep(data$Links[j], teams$Links, fixed=TRUE)
@@ -299,9 +300,9 @@ clubScores <- scores %>% filter(Team1 %in% clubTeams$Team & Team2 %in% clubTeams
 Ranking <- rankedteams %>% filter(`Competition Level`== level) %>% mutate(Rank=dense_rank(desc(Rating))) %>% select(Rank, Team, Wins, Losses, Rating, City, State)
 n<-network.initialize(nrow(clubTeams), directed = TRUE, multiple = TRUE)
 network.vertex.names(n)<-clubTeams$Team
-n %v% "rank" <- left_join(clubTeams, Ranking, by = "Team" ) %>%
+n %v% "rank" <- left_join(clubTeams, Ranking, by = c("Team","State") ) %>%
   .$Rank
-n %v% "rating" <- left_join(clubTeams, Ranking, by = "Team" ) %>%
+n %v% "rating" <- left_join(clubTeams, Ranking, by = c("Team", "State") ) %>%
   .$Rating
 add.edges(n, 
           parse_factor(clubScores$Team1,clubTeams$Team), 

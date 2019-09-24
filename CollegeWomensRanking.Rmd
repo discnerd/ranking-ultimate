@@ -173,7 +173,7 @@ rD[["server"]]$stop()
 gc(rD)
 ```
 ```{r}
-save(scores, teams, file=paste0("WomensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
+save(scores, teams, file=paste0("Data/CollegeWomensScores",format(Sys.time(),"%Y %m %d"),".Rdata"))
 ```
 
 ```{r}
