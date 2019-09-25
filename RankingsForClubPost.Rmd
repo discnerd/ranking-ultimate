@@ -10,30 +10,30 @@ knitr::opts_chunk$set(echo = TRUE, message =  FALSE)
 library(tidyverse)
 library(readr)
 library(stringr)
-date="2017 09 25"
-old_date="2017 09 19"
+date="2019 09 23"
+#old_date="2017 09 19"
 ```
 
-#Men
+# Men
 
-##Club
+## Club
 
 ```{r MenClub, echo=FALSE, results="asis"}
 Ranking <- read_csv(paste0("USAU Club Men RW",date,".csv"))
-oldRanking <- read_csv(paste0("USAU Club Men RW",old_date,".csv"))
+#oldRanking <- read_csv(paste0("USAU Club Men RW",old_date,".csv"))
 
-Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-  mutate(Rank.diff = Rank.y-Rank.x) %>%
-  select(Rank.x, Rank.diff,  Team, contains(".x"), City, State) %>%
-  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+#Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+#  mutate(Rank.diff = Rank.y-Rank.x) %>%
+#  select(Rank.x, Rank.diff,  Team, contains(".x"), City, State) %>%
+#  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
 Ranking %>% head(25) %>% knitr::kable()
 
 ```
 
-##Masters
-```{r MenD3, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Masters Men RW2017 08 04.csv")
+## Masters
+```{r MenMasters, results='asis', echo=FALSE}
+Ranking <- read_csv(paste0("USAU Masters Men RW",date,".csv"))
 #oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 
 #Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
@@ -45,10 +45,10 @@ Ranking %>% head(25) %>% knitr::kable()
 ```
 
 
-##Grand Masters
+## Grand Masters
 
 ```{r Men GM, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Grand Masters Men RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Grand Masters Men RW",date,".csv"))
 #oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 
 #Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
@@ -61,27 +61,33 @@ Ranking %>% head(25) %>% knitr::kable()
 ```
 
 
-#Women
+# Women
 
-##Club
+## Club
 
 
 
 ```{r WomenClub, echo=FALSE, results="asis"}
-Ranking <- read_csv(paste0("USAU Club Women RW",date,".csv"))
-oldRanking <- read_csv(paste0("USAU Club Women RW",old_date,".csv"))
+date="2019 09 24"
+Ranking <- read_csv(paste0("USAU Club Women RW",date,".csv"), 
+    locale = locale(encoding = "ISO-8859-1", 
+        asciify = TRUE))
 
-Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-  mutate(Rank.diff = Rank.y-Rank.x) %>%
- select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
-  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+# oldRanking <- read_csv(paste0("USAU Club Women RW",old_date,".csv"))
+# 
+# Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+#   mutate(Rank.diff = Rank.y-Rank.x) %>%
+#  select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
+#   rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
-Ranking %>% head(25) %>% knitr::kable()
+Ranking %>% head(25) %>% 
+  #mutate(City =  if_else(str_detect(City,"Qu"),"Quebec",City) )%>%
+  knitr::kable()
 ```
 
-##Masters
+## Masters
 ```{r WomenMasters, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Masters Women RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Masters Women RW",date,".csv"))
 #oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 
 #Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
@@ -92,10 +98,10 @@ Ranking <- read_csv("USAU Masters Women RW2017 08 04.csv")
 Ranking %>% head(25) %>% knitr::kable()
 ```
 
-##Grand Masters
+## Grand Masters
 
 ```{r WomenGrandMasters, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Grand Masters Women RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Grand Masters Women RW",date,".csv"))
 #oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 
 #Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
@@ -106,18 +112,18 @@ Ranking <- read_csv("USAU Grand Masters Women RW2017 08 04.csv")
 Ranking %>% head(25) %>% knitr::kable()
 ```
 
-#Mixed
+# Mixed
 
-##Club
+## Club
 
 ```{r MixedClub, results='asis', echo=FALSE}
 Ranking <- read_csv(paste0("USAU Club Mixed RW",date,".csv"))
-oldRanking <- read_csv(paste0("USAU Club Mixed RW",old_date,".csv"))
-
-Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
-  mutate(Rank.diff = Rank.y-Rank.x) %>%
-  select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
-  rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
+# oldRanking <- read_csv(paste0("USAU Club Mixed RW",old_date,".csv"))
+# 
+# Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
+#   mutate(Rank.diff = Rank.y-Rank.x) %>%
+#   select(Rank.x, Rank.diff, Team, contains(".x"), City, State) %>%
+#   rename( Rank=Rank.x, Rating=Rating.x, Wins=Wins.x, Losses=Losses.x)
 
 Ranking %>% head(25) %>% knitr::kable()
 
@@ -126,10 +132,10 @@ Ranking %>% head(25) %>% knitr::kable()
 ```
 
 
-##Masters
+## Masters
 
 ```{r MixedMasters, results='asis', echo=FALSE}
-Ranking <- read_csv("USAU Masters Mixed RW2017 08 04.csv")
+Ranking <- read_csv(paste0("USAU Masters Mixed RW",date,".csv"))
 #oldRanking <- read_csv("USAU College Men RW2017 05 22.csv")
 
 #Ranking <- left_join(Ranking,oldRanking,by=c("Team", "City", "State")) %>% 
